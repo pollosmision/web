@@ -1,22 +1,133 @@
-<main class="flex min-h-[calc(100dvh-5rem)] items-center py-12">
-  <pm-page-container>
-    <section
-      class="mx-auto max-w-2xl rounded-pm-xl border border-pm-border bg-pm-surface p-8 text-center shadow-pm-md sm:p-12"
-    >
-      <p class="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-pm-brown">
-        Tu misión es disfrutar
-      </p>
-      <h1
-        class="text-4xl font-extrabold tracking-tight sm:text-6xl"
-        [attr.aria-label]="business.name"
-      >
-        <span class="text-pm-orange">Pollos</span>
-        <span class="text-pm-red"> Misión</span>
-      </h1>
-      <p class="mt-5 text-base text-pm-foreground-muted sm:text-lg">
-        Base visual y arquitectura preparadas en {{ business.location.city }},
-        {{ business.location.country }}.
-      </p>
-    </section>
-  </pm-page-container>
+<main>
+  <section class="relative overflow-hidden bg-pm-background py-10 sm:py-14 lg:py-20">
+    <div
+      class="pointer-events-none absolute -left-24 top-12 size-64 rounded-full border border-pm-orange/20"
+      aria-hidden="true"
+    ></div>
+    <div
+      class="pointer-events-none absolute left-24 top-32 size-2 rounded-full bg-pm-red/40"
+      aria-hidden="true"
+    ></div>
+
+    <pm-page-container>
+      <div class="grid items-center gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
+        <div class="relative z-10 text-center lg:text-left">
+          <p
+            class="mb-4 inline-flex rounded-full bg-pm-soft-orange px-4 py-2 text-xs font-extrabold uppercase tracking-[0.18em] text-pm-brown"
+          >
+            Sabor que despega en La Paz
+          </p>
+          <h1
+            class="text-4xl font-black leading-[1.05] tracking-tight text-pm-foreground sm:text-5xl lg:text-6xl xl:text-7xl"
+          >
+            ¡Tu misión es <span class="text-pm-orange">disfrutar!</span>
+          </h1>
+          <p
+            class="mx-auto mt-6 max-w-xl text-base leading-relaxed text-pm-foreground-muted sm:text-lg lg:mx-0"
+          >
+            Pollo crocante, papas irresistibles y el sabor perfecto para compartir. Prepárate para
+            una experiencia fuera de este mundo.
+          </p>
+
+          <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row lg:justify-start">
+            <a
+              routerLink="/menu"
+              class="inline-flex min-h-12 items-center justify-center rounded-full bg-pm-orange px-7 py-3 font-extrabold text-white shadow-pm-md hover:-translate-y-0.5 hover:bg-pm-red"
+            >
+              Pide ahora
+            </a>
+            <a
+              href="#categorias"
+              class="inline-flex min-h-12 items-center justify-center rounded-full border-2 border-pm-brown px-7 py-3 font-extrabold text-pm-brown hover:bg-pm-brown hover:text-white"
+            >
+              Ver menú
+            </a>
+          </div>
+
+          <p class="mt-6 text-sm font-semibold text-pm-foreground-muted">
+            {{ business.location.city }}, {{ business.location.country }}
+          </p>
+        </div>
+
+        <div class="relative mx-auto w-full max-w-3xl">
+          <div
+            class="absolute -inset-3 rotate-2 rounded-[2rem] bg-pm-orange/15 sm:-inset-5"
+            aria-hidden="true"
+          ></div>
+          <figure
+            class="relative overflow-hidden rounded-pm-xl border-4 border-white bg-pm-surface shadow-pm-md"
+          >
+            <img
+              src="/images/home/hero-fried-chicken.png"
+              width="1536"
+              height="1024"
+              alt="Canasta con pollo frito crocante, papas fritas y salsas"
+              class="aspect-[3/2] h-full w-full object-cover"
+              fetchpriority="high"
+            />
+          </figure>
+          <div
+            class="absolute -bottom-5 left-4 rounded-pm-lg bg-pm-red px-5 py-3 text-sm font-black uppercase tracking-wide text-white shadow-pm-md sm:left-8"
+          >
+            Crocante de verdad
+          </div>
+        </div>
+      </div>
+    </pm-page-container>
+  </section>
+
+  <section id="categorias" class="scroll-mt-24 bg-pm-surface py-16 sm:py-20 lg:py-24">
+    <pm-page-container>
+      <div class="mx-auto max-w-2xl text-center">
+        <p class="text-sm font-extrabold uppercase tracking-[0.2em] text-pm-red">
+          Explora la misión
+        </p>
+        <h2 class="mt-3 text-3xl font-black tracking-tight text-pm-foreground sm:text-4xl">
+          Elige tu antojo favorito
+        </h2>
+        <p class="mt-4 text-pm-foreground-muted">
+          Ocho formas de disfrutar el sabor de Pollos Misión.
+        </p>
+      </div>
+
+      <div class="mt-10 grid grid-cols-2 gap-3 sm:gap-5 md:grid-cols-3 lg:grid-cols-4">
+        @for (category of categories; track category.id) {
+          <a
+            routerLink="/menu"
+            [fragment]="category.slug"
+            class="group overflow-hidden rounded-pm-lg border border-pm-border bg-pm-background shadow-pm-sm hover:-translate-y-1 hover:border-pm-orange hover:shadow-pm-md"
+          >
+            <div
+              class="relative grid aspect-[4/3] place-items-center overflow-hidden bg-gradient-to-br from-pm-soft-orange to-pm-cream"
+              role="img"
+              [attr.aria-label]="'Imagen referencial pendiente de ' + category.name"
+            >
+              <span
+                class="absolute size-24 rounded-full border border-pm-orange/25 sm:size-32"
+                aria-hidden="true"
+              ></span>
+              <span
+                class="absolute size-16 rounded-full border border-dashed border-pm-red/30 sm:size-24"
+                aria-hidden="true"
+              ></span>
+              <span
+                class="relative grid size-14 place-items-center rounded-full bg-pm-orange text-sm font-black text-white shadow-pm-md transition-transform duration-200 group-hover:scale-110 sm:size-16"
+                aria-hidden="true"
+              >
+                {{ category.visualLabel }}
+              </span>
+            </div>
+            <div class="p-4 sm:p-5">
+              <h3 class="font-extrabold leading-tight text-pm-foreground group-hover:text-pm-red">
+                {{ category.name }}
+              </h3>
+              <p class="mt-2 hidden text-sm leading-relaxed text-pm-foreground-muted sm:block">
+                {{ category.description }}
+              </p>
+            </div>
+          </a>
+        }
+      </div>
+    </pm-page-container>
+  </section>
 </main>
