@@ -35,7 +35,11 @@ export class CartService {
     effect(() => {
       const cart: StoredCart = { version: CART_STORAGE_VERSION, items: this.itemsState() };
       if (this.isBrowser) {
-        localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+        try {
+          localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+        } catch {
+          // Keep the cart usable in memory if browser storage is unavailable or full.
+        }
       }
     });
   }

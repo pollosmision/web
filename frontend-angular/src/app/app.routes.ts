@@ -13,6 +13,11 @@ const productDescription: ResolveFn<string> = (route) => {
   return product?.description ?? 'El producto solicitado no está disponible en Pollos Misión.';
 };
 
+const productRobots: ResolveFn<string> = (route) => {
+  const product = inject(CatalogService).getProductBySlug(route.paramMap.get('slug') ?? '');
+  return product ? 'index, follow' : 'noindex, nofollow';
+};
+
 export const routes: Routes = [
   {
     path: '',
@@ -40,7 +45,7 @@ export const routes: Routes = [
       {
         path: 'producto/:slug',
         title: productTitle,
-        resolve: { description: productDescription },
+        resolve: { description: productDescription, robots: productRobots },
         loadComponent: () =>
           import('./features/product-detail/product-detail').then(
             ({ ProductDetail }) => ProductDetail,
