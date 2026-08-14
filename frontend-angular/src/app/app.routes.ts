@@ -11,6 +11,35 @@ export const routes: Routes = [
         title: 'Pollos Misión',
         loadComponent: () => import('./features/home/home').then(({ Home }) => Home),
       },
+      ...[
+        { path: 'menu', title: 'Menú', description: 'Muy pronto podrás explorar nuestro menú.' },
+        {
+          path: 'promociones',
+          title: 'Promociones',
+          description: 'Estamos preparando promociones para tu próxima misión.',
+        },
+        {
+          path: 'nosotros',
+          title: 'Nosotros',
+          description: 'Conoce muy pronto la historia de Pollos Misión.',
+        },
+        {
+          path: 'ubicacion',
+          title: 'Ubicación',
+          description: 'Próximamente encontrarás aquí nuestra base en La Paz.',
+        },
+        {
+          path: 'carrito',
+          title: 'Carrito',
+          description: 'El carrito estará disponible en una siguiente etapa.',
+        },
+      ].map(({ path, title, description }) => ({
+        path,
+        title: `${title} | Pollos Misión`,
+        data: { title, description },
+        loadComponent: () =>
+          import('./features/public-page/public-page').then(({ PublicPage }) => PublicPage),
+      })),
     ],
   },
   { path: '**', redirectTo: '' },
