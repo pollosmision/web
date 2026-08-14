@@ -1,0 +1,22 @@
+<main class="flex min-h-dvh items-center py-12">
+  <pm-page-container>
+    <section
+      class="rounded-pm-xl border border-pm-border bg-pm-surface p-8 text-center shadow-pm-md sm:p-12"
+    >
+      <p class="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-pm-brown">
+        Tu misión es disfrutar
+      </p>
+      <h1
+        class="text-4xl font-extrabold tracking-tight sm:text-6xl"
+        [attr.aria-label]="business.name"
+      >
+        <span class="text-pm-orange">Pollos</span>
+        <span class="text-pm-red"> Misión</span>
+      </h1>
+      <p class="mt-5 text-base text-pm-foreground-muted sm:text-lg">
+        Base visual y arquitectura preparadas en {{ business.location.city }},
+        {{ business.location.country }}.
+      </p>
+    </section>
+  </pm-page-container>
+</main>
