@@ -11,6 +11,7 @@ import {
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 import { CartService } from '../../../../core/cart/services/cart.service';
+import { ThemeService } from '../../../../core/theme/services/theme.service';
 
 interface NavigationItem {
   readonly label: string;
@@ -34,6 +35,7 @@ const NAVIGATION_ITEMS: readonly NavigationItem[] = [
 })
 export class Header {
   protected readonly cart = inject(CartService);
+  protected readonly theme = inject(ThemeService);
   protected readonly isMenuOpen = signal(false);
   protected readonly navigationItems = NAVIGATION_ITEMS;
 

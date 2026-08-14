@@ -36,12 +36,19 @@
 
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --pm-background: var(--pm-dark);
-  --pm-surface: var(--pm-gray-900);
-  --pm-surface-muted: var(--pm-brown);
+  --pm-red: #ff8a80;
+  --pm-brown: #f0c7a5;
+  --pm-cream: #2a211c;
+  --pm-soft-orange: #3a2a20;
+  --pm-gray-500: #c7bdb7;
+  --pm-background: #211915;
+  --pm-surface: #2b221e;
+  --pm-surface-muted: #3a2a20;
   --pm-foreground: var(--pm-white);
-  --pm-foreground-muted: var(--pm-gray-100);
-  --pm-border: var(--pm-brown);
+  --pm-foreground-muted: #d8cec8;
+  --pm-border: #60483a;
+  --pm-shadow-sm: 0 1px 3px rgb(0 0 0 / 24%);
+  --pm-shadow-md: 0 12px 32px rgb(0 0 0 / 32%);
 }
 
 @theme inline {
@@ -92,11 +99,54 @@ textarea {
 }
 
 :focus-visible {
-  outline: 3px solid var(--pm-orange);
+  outline: 3px solid var(--pm-red);
   outline-offset: 3px;
+}
+
+#main-content h1[tabindex='-1']:focus {
+  outline: none;
 }
 
 ::selection {
   background: var(--pm-orange);
+  color: var(--pm-dark);
+}
+
+:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Brand orange and WhatsApp green need dark foregrounds for accessible contrast. */
+[class~='bg-pm-orange'][class~='text-white'],
+[class~='bg-pm-success'][class~='text-white'] {
+  color: var(--pm-dark);
+}
+
+:root[data-theme='dark'] [class~='bg-pm-red'][class~='text-white'] {
+  color: var(--pm-dark);
+}
+
+:root[data-theme='dark'] [class~='bg-white'][class~='text-pm-red'] {
+  color: #c62828;
+}
+
+[class~='bg-pm-orange'][class~='text-white'][class~='hover:bg-pm-red']:hover {
   color: var(--pm-white);
+}
+
+:root[data-theme='dark']
+  [class~='bg-pm-orange'][class~='text-white'][class~='hover:bg-pm-red']:hover {
+  color: var(--pm-dark);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }

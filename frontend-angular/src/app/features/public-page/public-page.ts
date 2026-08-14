@@ -12,9 +12,7 @@ import { PageContainer } from '../../shared/components/page-container/page-conta
         <section
           class="mx-auto max-w-3xl rounded-pm-xl border border-pm-border bg-pm-surface p-8 text-center shadow-pm-md sm:p-12"
         >
-          <p class="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-pm-orange">
-            Pollos Misión
-          </p>
+          <p class="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-pm-red">Pollos Misión</p>
           <h1 class="text-4xl font-extrabold tracking-tight text-pm-foreground sm:text-5xl">
             {{ title }}
           </h1>
