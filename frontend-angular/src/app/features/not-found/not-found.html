@@ -1,0 +1,36 @@
+<main
+  class="grid min-h-[calc(100dvh-5rem)] place-items-center overflow-hidden bg-pm-background py-14"
+>
+  <pm-page-container>
+    <section
+      class="relative mx-auto max-w-3xl overflow-hidden rounded-pm-xl bg-pm-dark px-6 py-16 text-center text-white shadow-pm-md sm:px-12 sm:py-20"
+      aria-labelledby="not-found-title"
+    >
+      <div
+        class="pointer-events-none absolute -left-24 -top-24 size-72 rounded-full border border-dashed border-pm-orange/40"
+        aria-hidden="true"
+      ></div>
+      <div
+        class="pointer-events-none absolute bottom-14 right-12 size-2 rounded-full bg-pm-orange"
+        aria-hidden="true"
+      ></div>
+      <div class="relative">
+        <p class="text-7xl font-black text-pm-orange sm:text-8xl" aria-hidden="true">404</p>
+        <h1
+          id="not-found-title"
+          class="mx-auto mt-6 max-w-2xl text-3xl font-black leading-tight sm:text-5xl"
+        >
+          Houston... esta página se salió de la misión.
+        </h1>
+        <p class="mx-auto mt-5 max-w-xl leading-relaxed text-white/70">
+          La ruta que buscas no existe o cambió de coordenadas.
+        </p>
+        <a
+          routerLink="/"
+          class="mt-8 inline-flex rounded-full bg-pm-orange px-7 py-3 font-black text-white hover:bg-pm-red"
+          >Volver al inicio</a
+        >
+      </div>
+    </section>
+  </pm-page-container>
+</main>

@@ -2,21 +2,16 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { BUSINESS_CONFIG } from '../../core/config/business.config';
-import { CatalogService } from '../../core/catalog/services/catalog.service';
 import { PromotionService } from '../../core/content/services/promotion.service';
 import { PageContainer } from '../../shared/components/page-container/page-container';
 
 @Component({
-  selector: 'pm-home',
+  selector: 'pm-promotions',
   imports: [PageContainer, RouterLink],
-  templateUrl: './home.html',
+  templateUrl: './promotions.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Home {
-  private readonly catalogService = inject(CatalogService);
-
-  protected readonly business = BUSINESS_CONFIG;
-  protected readonly categories = this.catalogService.getCategories();
-  protected readonly featuredProducts = this.catalogService.getFeaturedProducts();
+export class Promotions {
   protected readonly promotions = inject(PromotionService).getPromotions();
+  protected readonly instagramUrl = `https://www.instagram.com/${BUSINESS_CONFIG.socialHandles.instagram}`;
 }

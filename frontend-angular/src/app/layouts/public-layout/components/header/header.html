@@ -42,7 +42,7 @@
       <a
         routerLink="/carrito"
         class="relative grid size-11 place-items-center rounded-full text-pm-foreground hover:bg-pm-surface-muted hover:text-pm-red"
-        aria-label="Ver carrito, 0 productos"
+        [attr.aria-label]="'Ver carrito, ' + cart.totalUnits() + ' productos'"
         (click)="closeMenu()"
       >
         <svg
@@ -61,11 +61,13 @@
           <circle cx="10" cy="20" r="1" />
           <circle cx="18" cy="20" r="1" />
         </svg>
-        <span
-          class="absolute right-0 top-0 grid size-5 place-items-center rounded-full bg-pm-red text-[0.625rem] font-bold text-white"
-          aria-hidden="true"
-          >0</span
-        >
+        @if (cart.totalUnits() > 0) {
+          <span
+            class="absolute right-0 top-0 grid min-h-5 min-w-5 place-items-center rounded-full bg-pm-red px-1 text-[0.625rem] font-bold text-white"
+            aria-hidden="true"
+            >{{ cart.totalUnits() }}</span
+          >
+        }
       </a>
 
       <a

@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { CatalogService } from '../../core/catalog/services/catalog.service';
+import { CartService } from '../../core/cart/services/cart.service';
 import { PageContainer } from '../../shared/components/page-container/page-container';
 
 const MIN_QUANTITY = 1;
@@ -17,6 +18,7 @@ const MAX_OBSERVATION_LENGTH = 250;
 export class ProductDetail {
   private readonly route = inject(ActivatedRoute);
   private readonly catalogService = inject(CatalogService);
+  private readonly cartService = inject(CartService);
 
   protected readonly product = this.catalogService.getProductBySlug(
     this.route.snapshot.paramMap.get('slug') ?? '',
@@ -58,8 +60,22 @@ export class ProductDetail {
   }
 
   protected prepareOrder(): void {
-    this.confirmationMessage.set(
-      'Selección preparada. El carrito se conectará en el siguiente paso del desarrollo.',
-    );
+    if (!this.product) return;
+
+    const sauceName =
+      this.product.sauceOptions?.find((sauce) => sauce.id === this.selectedSauce())?.name ?? null;
+    const additionalNames =
+      this.product.additionalOptions
+        ?.filter((additional) => this.selectedAdditionals().has(additional.id))
+        .map((additional) => additional.name) ?? [];
+
+    this.cartService.addItem({
+      product: this.product,
+      quantity: this.quantity(),
+      sauceName,
+      additionalNames,
+      observations: this.observations(),
+    });
+    this.confirmationMessage.set('Producto agregado al pedido correctamente.');
   }
 }

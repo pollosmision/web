@@ -1,0 +1,73 @@
+<main class="bg-pm-background">
+  <section class="relative overflow-hidden bg-pm-dark py-16 text-white sm:py-20 lg:py-24">
+    <div
+      class="pointer-events-none absolute -right-24 -top-24 size-80 rounded-full border border-dashed border-pm-orange/40"
+      aria-hidden="true"
+    ></div>
+    <pm-page-container>
+      <div class="relative max-w-3xl">
+        <p class="text-sm font-extrabold uppercase tracking-[0.2em] text-pm-orange">Novedades</p>
+        <h1 class="mt-3 text-4xl font-black tracking-tight sm:text-5xl lg:text-6xl">
+          Promociones en órbita
+        </h1>
+        <p class="mt-5 max-w-2xl text-lg leading-relaxed text-white/70">
+          Este será el punto de encuentro para conocer nuestras promociones oficiales.
+        </p>
+      </div>
+    </pm-page-container>
+  </section>
+
+  <section class="py-16 sm:py-20 lg:py-24" aria-labelledby="promotions-list-title">
+    <pm-page-container>
+      <h2 id="promotions-list-title" class="sr-only">Próximas promociones</h2>
+      <div class="grid gap-6 lg:grid-cols-2">
+        @for (promotion of promotions; track promotion.id; let index = $index) {
+          <article
+            class="relative overflow-hidden rounded-pm-xl p-8 text-white shadow-pm-md sm:p-10"
+            [class.bg-pm-red]="index === 0"
+            [class.bg-pm-brown]="index !== 0"
+          >
+            <div
+              class="absolute -bottom-20 -right-16 size-56 rounded-full border border-dashed border-white/25"
+              aria-hidden="true"
+            ></div>
+            <div class="relative">
+              <p class="text-xs font-black uppercase tracking-[0.2em] text-pm-soft-orange">
+                {{ promotion.eyebrow }}
+              </p>
+              <h2 class="mt-4 text-2xl font-black sm:text-3xl">{{ promotion.title }}</h2>
+              <p class="mt-4 max-w-xl leading-relaxed text-white/80">{{ promotion.description }}</p>
+            </div>
+          </article>
+        }
+      </div>
+
+      <section
+        class="mt-10 rounded-pm-xl border border-pm-border bg-pm-surface p-8 text-center shadow-pm-sm sm:p-10"
+        aria-labelledby="promotion-notice-title"
+      >
+        <h2 id="promotion-notice-title" class="text-2xl font-black">
+          Aún no hay promociones publicadas
+        </h2>
+        <p class="mx-auto mt-3 max-w-2xl text-pm-foreground-muted">
+          No mostramos descuentos ni condiciones hasta que sean confirmados oficialmente. Sigue
+          nuestras redes para enterarte primero.
+        </p>
+        <div class="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
+          <a
+            [href]="instagramUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="rounded-full bg-pm-orange px-6 py-3 font-black text-white hover:bg-pm-red"
+            >Seguir en Instagram</a
+          >
+          <a
+            routerLink="/menu"
+            class="rounded-full border-2 border-pm-brown px-6 py-3 font-black text-pm-brown hover:bg-pm-brown hover:text-white"
+            >Explorar el menú</a
+          >
+        </div>
+      </section>
+    </pm-page-container>
+  </section>
+</main>

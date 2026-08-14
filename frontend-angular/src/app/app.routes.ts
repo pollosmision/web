@@ -24,27 +24,29 @@ export const routes: Routes = [
             ({ ProductDetail }) => ProductDetail,
           ),
       },
+      {
+        path: 'carrito',
+        title: 'Carrito | Pollos Misión',
+        loadComponent: () => import('./features/cart/cart').then(({ Cart }) => Cart),
+      },
+      {
+        path: 'promociones',
+        title: 'Promociones | Pollos Misión',
+        loadComponent: () =>
+          import('./features/promotions/promotions').then(({ Promotions }) => Promotions),
+      },
+      {
+        path: 'nosotros',
+        title: 'Nosotros | Pollos Misión',
+        loadComponent: () => import('./features/about/about').then(({ About }) => About),
+      },
+      {
+        path: 'ubicacion',
+        title: 'Ubicación | Pollos Misión',
+        loadComponent: () =>
+          import('./features/location/location').then(({ Location }) => Location),
+      },
       ...[
-        {
-          path: 'promociones',
-          title: 'Promociones',
-          description: 'Estamos preparando promociones para tu próxima misión.',
-        },
-        {
-          path: 'nosotros',
-          title: 'Nosotros',
-          description: 'Conoce muy pronto la historia de Pollos Misión.',
-        },
-        {
-          path: 'ubicacion',
-          title: 'Ubicación',
-          description: 'Próximamente encontrarás aquí nuestra base en La Paz.',
-        },
-        {
-          path: 'carrito',
-          title: 'Carrito',
-          description: 'El carrito estará disponible en una siguiente etapa.',
-        },
         {
           path: 'terminos',
           title: 'Términos y condiciones',
@@ -62,7 +64,12 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/public-page/public-page').then(({ PublicPage }) => PublicPage),
       })),
+      {
+        path: '**',
+        title: 'Página no encontrada | Pollos Misión',
+        loadComponent: () =>
+          import('./features/not-found/not-found').then(({ NotFound }) => NotFound),
+      },
     ],
   },
-  { path: '**', redirectTo: '' },
 ];

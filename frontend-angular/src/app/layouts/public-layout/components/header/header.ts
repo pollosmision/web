@@ -4,10 +4,13 @@ import {
   ElementRef,
   HostListener,
   effect,
+  inject,
   signal,
   viewChild,
 } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+
+import { CartService } from '../../../../core/cart/services/cart.service';
 
 interface NavigationItem {
   readonly label: string;
@@ -30,6 +33,7 @@ const NAVIGATION_ITEMS: readonly NavigationItem[] = [
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Header {
+  protected readonly cart = inject(CartService);
   protected readonly isMenuOpen = signal(false);
   protected readonly navigationItems = NAVIGATION_ITEMS;
 

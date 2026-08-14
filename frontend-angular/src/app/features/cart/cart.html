@@ -1,0 +1,166 @@
+<main class="bg-pm-background py-10 sm:py-14 lg:py-18">
+  <pm-page-container>
+    <div class="mb-10">
+      <p class="text-sm font-extrabold uppercase tracking-[0.2em] text-pm-red">Tu selección</p>
+      <h1 class="mt-3 text-4xl font-black tracking-tight text-pm-foreground sm:text-5xl">
+        Carrito de la misión
+      </h1>
+      <p class="mt-4 text-pm-foreground-muted">
+        Revisa las cantidades y personalizaciones de tu pedido.
+      </p>
+    </div>
+
+    @if (cart.items().length) {
+      <div class="grid items-start gap-8 lg:grid-cols-[1fr_22rem]">
+        <section class="space-y-4" aria-label="Productos del carrito">
+          @for (item of cart.items(); track item.id) {
+            <article
+              class="grid gap-4 rounded-pm-xl border border-pm-border bg-pm-surface p-4 shadow-pm-sm sm:grid-cols-[9rem_1fr] sm:p-5"
+            >
+              @if (item.imageUrl; as imageUrl) {
+                <img
+                  [src]="imageUrl"
+                  [alt]="item.productName"
+                  width="1254"
+                  height="1254"
+                  class="aspect-square w-full rounded-pm-lg object-cover"
+                />
+              } @else {
+                <div
+                  class="grid aspect-square w-full place-items-center rounded-pm-lg bg-pm-soft-orange text-xl font-black text-pm-orange"
+                  role="img"
+                  [attr.aria-label]="'Imagen pendiente para ' + item.productName"
+                >
+                  {{ item.visualLabel }}
+                </div>
+              }
+
+              <div class="flex min-w-0 flex-col">
+                <div class="flex items-start justify-between gap-3">
+                  <div>
+                    <h2 class="text-xl font-black text-pm-foreground">{{ item.productName }}</h2>
+                    @if (item.sauceName) {
+                      <p class="mt-1 text-sm text-pm-foreground-muted">
+                        Salsa: {{ item.sauceName }}
+                      </p>
+                    }
+                    @if (item.additionalNames.length) {
+                      <p class="mt-1 text-sm text-pm-foreground-muted">
+                        Adicionales: {{ item.additionalNames.join(', ') }}
+                      </p>
+                    }
+                    @if (item.observations) {
+                      <p class="mt-1 text-sm text-pm-foreground-muted">
+                        Observaciones: {{ item.observations }}
+                      </p>
+                    }
+                  </div>
+                  <button
+                    type="button"
+                    class="shrink-0 rounded-full px-3 py-2 text-sm font-bold text-pm-red hover:bg-pm-soft-orange"
+                    [attr.aria-label]="'Eliminar ' + item.productName"
+                    (click)="cart.removeItem(item.id)"
+                  >
+                    Eliminar
+                  </button>
+                </div>
+
+                <div class="mt-auto flex flex-wrap items-end justify-between gap-4 pt-5">
+                  <div
+                    class="inline-flex items-center rounded-full border border-pm-border bg-pm-background p-1"
+                  >
+                    <button
+                      type="button"
+                      class="grid size-10 place-items-center rounded-full font-black hover:bg-pm-soft-orange"
+                      [attr.aria-label]="'Disminuir cantidad de ' + item.productName"
+                      (click)="cart.decreaseQuantity(item.id)"
+                    >
+                      −
+                    </button>
+                    <output
+                      class="min-w-10 text-center font-black"
+                      [attr.aria-label]="'Cantidad de ' + item.productName + ': ' + item.quantity"
+                      >{{ item.quantity }}</output
+                    >
+                    <button
+                      type="button"
+                      class="grid size-10 place-items-center rounded-full font-black hover:bg-pm-soft-orange"
+                      [attr.aria-label]="'Aumentar cantidad de ' + item.productName"
+                      [disabled]="item.quantity === 99"
+                      (click)="cart.increaseQuantity(item.id)"
+                    >
+                      +
+                    </button>
+                  </div>
+                  @if (item.unitPrice; as price) {
+                    <p class="font-black text-pm-red">
+                      {{ price.currency }} {{ (price.amount * item.quantity).toFixed(2) }}
+                    </p>
+                  } @else {
+                    <p class="text-sm font-bold text-pm-foreground-muted">Precio por confirmar</p>
+                  }
+                </div>
+              </div>
+            </article>
+          }
+        </section>
+
+        <aside
+          class="rounded-pm-xl border border-pm-border bg-pm-surface p-6 shadow-pm-md lg:sticky lg:top-28"
+          aria-labelledby="cart-summary-title"
+        >
+          <h2 id="cart-summary-title" class="text-2xl font-black">Resumen</h2>
+          <div
+            class="mt-5 flex justify-between border-b border-pm-border pb-4 text-pm-foreground-muted"
+          >
+            <span>Unidades</span><strong class="text-pm-foreground">{{ cart.totalUnits() }}</strong>
+          </div>
+          <div class="flex justify-between gap-4 py-5">
+            <span class="font-bold">Subtotal</span>
+            @if (cart.subtotal(); as subtotal) {
+              <strong class="text-pm-red">BOB {{ subtotal.toFixed(2) }}</strong>
+            } @else {
+              <strong class="text-right text-pm-foreground-muted">Por confirmar</strong>
+            }
+          </div>
+          <p class="rounded-pm-md bg-pm-soft-orange p-4 text-sm leading-relaxed text-pm-brown">
+            Los precios y la disponibilidad se confirmarán antes de completar el pedido.
+          </p>
+          <a
+            routerLink="/menu"
+            class="mt-5 inline-flex w-full justify-center rounded-full border-2 border-pm-brown px-5 py-3 font-black text-pm-brown hover:bg-pm-brown hover:text-white"
+            >Seguir agregando</a
+          >
+          <button
+            type="button"
+            class="mt-3 w-full text-sm font-bold text-pm-red hover:underline"
+            (click)="cart.clear()"
+          >
+            Vaciar carrito
+          </button>
+        </aside>
+      </div>
+    } @else {
+      <section
+        class="mx-auto max-w-2xl rounded-pm-xl border border-dashed border-pm-orange bg-pm-surface p-8 text-center shadow-pm-sm sm:p-12"
+        aria-labelledby="empty-cart-title"
+      >
+        <div
+          class="mx-auto grid size-20 place-items-center rounded-full bg-pm-soft-orange text-3xl"
+          aria-hidden="true"
+        >
+          🛒
+        </div>
+        <h2 id="empty-cart-title" class="mt-6 text-3xl font-black">Tu carrito está vacío</h2>
+        <p class="mt-4 text-pm-foreground-muted">
+          Explora el menú y prepara tu próxima misión deliciosa.
+        </p>
+        <a
+          routerLink="/menu"
+          class="mt-7 inline-flex rounded-full bg-pm-orange px-7 py-3 font-black text-white hover:bg-pm-red"
+          >Explorar el menú</a
+        >
+      </section>
+    }
+  </pm-page-container>
+</main>
