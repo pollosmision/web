@@ -1,0 +1,217 @@
+<main class="bg-pm-background py-10 sm:py-14 lg:py-18">
+  <pm-page-container>
+    @if (product; as currentProduct) {
+      <nav class="mb-8 text-sm text-pm-foreground-muted" aria-label="Migas de pan">
+        <ol class="flex flex-wrap items-center gap-2">
+          <li><a routerLink="/" class="hover:text-pm-red">Inicio</a></li>
+          <li aria-hidden="true">/</li>
+          <li><a routerLink="/menu" class="hover:text-pm-red">Menú</a></li>
+          <li aria-hidden="true">/</li>
+          <li class="font-semibold text-pm-foreground" aria-current="page">
+            {{ currentProduct.name }}
+          </li>
+        </ol>
+      </nav>
+
+      <div class="grid items-start gap-8 lg:grid-cols-2 lg:gap-14">
+        <div class="lg:sticky lg:top-28">
+          @if (currentProduct.imageUrl; as imageUrl) {
+            <img
+              [src]="imageUrl"
+              [alt]="currentProduct.imageAlt"
+              width="1254"
+              height="1254"
+              class="aspect-square w-full rounded-pm-xl border border-pm-border object-cover shadow-pm-md"
+            />
+          } @else {
+            <div
+              class="relative grid aspect-square place-items-center overflow-hidden rounded-pm-xl border border-pm-border bg-gradient-to-br from-pm-soft-orange to-pm-cream shadow-pm-md"
+              role="img"
+              [attr.aria-label]="currentProduct.imageAlt"
+            >
+              <span
+                class="absolute size-72 rounded-full border border-pm-orange/25"
+                aria-hidden="true"
+              ></span>
+              <span
+                class="absolute size-48 rounded-full border border-dashed border-pm-red/30"
+                aria-hidden="true"
+              ></span>
+              <span
+                class="relative grid size-24 place-items-center rounded-full bg-pm-orange text-xl font-black text-white shadow-pm-md"
+                aria-hidden="true"
+                >{{ currentProduct.visualLabel }}</span
+              >
+            </div>
+          }
+        </div>
+
+        <section
+          class="rounded-pm-xl border border-pm-border bg-pm-surface p-6 shadow-pm-sm sm:p-8"
+          aria-labelledby="product-title"
+        >
+          <p class="text-xs font-black uppercase tracking-[0.16em] text-pm-brown">
+            Disponibilidad por confirmar
+          </p>
+          <h1
+            id="product-title"
+            class="mt-3 text-3xl font-black tracking-tight text-pm-foreground sm:text-5xl"
+          >
+            {{ currentProduct.name }}
+          </h1>
+          <p class="mt-5 text-lg leading-relaxed text-pm-foreground-muted">
+            {{ currentProduct.description }}
+          </p>
+
+          <div class="mt-6 border-y border-pm-border py-5">
+            @if (currentProduct.price; as price) {
+              <p class="text-2xl font-black text-pm-red">
+                {{ price.currency }} {{ price.amount.toFixed(2) }}
+                <span class="sr-only">Precio mock de referencia</span>
+              </p>
+            } @else {
+              <p class="font-bold text-pm-foreground-muted">
+                Precio por confirmar al realizar el pedido
+              </p>
+            }
+          </div>
+
+          <div class="mt-7">
+            <h2 class="font-black">Cantidad</h2>
+            <div
+              class="mt-3 inline-flex items-center rounded-full border border-pm-border bg-pm-background p-1"
+            >
+              <button
+                type="button"
+                class="grid size-11 place-items-center rounded-full font-black hover:bg-pm-soft-orange"
+                aria-label="Disminuir cantidad"
+                [disabled]="quantity() === 1"
+                (click)="decreaseQuantity()"
+              >
+                −
+              </button>
+              <output
+                class="min-w-12 text-center font-black"
+                aria-live="polite"
+                [attr.aria-label]="'Cantidad: ' + quantity()"
+                >{{ quantity() }}</output
+              >
+              <button
+                type="button"
+                class="grid size-11 place-items-center rounded-full font-black hover:bg-pm-soft-orange"
+                aria-label="Aumentar cantidad"
+                [disabled]="quantity() === 20"
+                (click)="increaseQuantity()"
+              >
+                +
+              </button>
+            </div>
+          </div>
+
+          @if (currentProduct.sauceOptions?.length) {
+            <fieldset class="mt-7">
+              <legend class="font-black">
+                Elige una salsa
+                <span class="font-normal text-pm-foreground-muted">(opcional y referencial)</span>
+              </legend>
+              <div class="mt-3 flex flex-wrap gap-2">
+                @for (sauce of currentProduct.sauceOptions; track sauce.id) {
+                  <label
+                    class="cursor-pointer rounded-full border border-pm-border px-4 py-2 text-sm font-bold has-checked:border-pm-orange has-checked:bg-pm-soft-orange"
+                  >
+                    <input
+                      type="radio"
+                      name="sauce"
+                      class="sr-only"
+                      [value]="sauce.id"
+                      [checked]="selectedSauce() === sauce.id"
+                      (change)="selectSauce(sauce.id)"
+                    />
+                    {{ sauce.name }}
+                  </label>
+                }
+              </div>
+            </fieldset>
+          }
+
+          @if (currentProduct.additionalOptions?.length) {
+            <fieldset class="mt-7">
+              <legend class="font-black">
+                Adicionales
+                <span class="font-normal text-pm-foreground-muted">(precio por confirmar)</span>
+              </legend>
+              <div class="mt-3 grid gap-2">
+                @for (additional of currentProduct.additionalOptions; track additional.id) {
+                  <label
+                    class="flex cursor-pointer items-center gap-3 rounded-pm-md border border-pm-border p-3 has-checked:border-pm-orange has-checked:bg-pm-soft-orange"
+                  >
+                    <input
+                      type="checkbox"
+                      class="size-5 accent-pm-orange"
+                      [checked]="selectedAdditionals().has(additional.id)"
+                      (change)="toggleAdditional(additional.id)"
+                    />
+                    <span class="font-semibold">{{ additional.name }}</span>
+                  </label>
+                }
+              </div>
+            </fieldset>
+          }
+
+          <div class="mt-7">
+            <label for="observations" class="font-black">Observaciones</label>
+            <textarea
+              id="observations"
+              rows="4"
+              maxlength="250"
+              [value]="observations()"
+              (input)="updateObservations($event)"
+              class="mt-3 w-full resize-y rounded-pm-md border border-pm-border bg-pm-background p-4 text-pm-foreground"
+              placeholder="Ej.: sin mayonesa"
+            ></textarea>
+            <p class="mt-1 text-right text-xs text-pm-foreground-muted">
+              {{ observations().length }} / {{ maxObservationLength }}
+            </p>
+          </div>
+
+          <button
+            type="button"
+            class="mt-7 flex min-h-13 w-full items-center justify-center rounded-full bg-pm-orange px-7 py-3 font-black text-white shadow-pm-md hover:-translate-y-0.5 hover:bg-pm-red"
+            (click)="prepareOrder()"
+          >
+            Agregar al pedido
+          </button>
+
+          @if (confirmationMessage(); as message) {
+            <p
+              class="mt-4 rounded-pm-md bg-pm-soft-orange p-4 text-sm font-semibold text-pm-brown"
+              role="status"
+            >
+              {{ message }}
+            </p>
+          }
+        </section>
+      </div>
+    } @else {
+      <section
+        class="mx-auto max-w-2xl rounded-pm-xl border border-dashed border-pm-orange bg-pm-surface p-8 text-center shadow-pm-sm sm:p-12"
+        aria-labelledby="not-found-title"
+      >
+        <p class="text-sm font-black uppercase tracking-[0.2em] text-pm-red">
+          Misión no encontrada
+        </p>
+        <h1 id="not-found-title" class="mt-3 text-3xl font-black sm:text-4xl">
+          Este producto no existe
+        </h1>
+        <p class="mt-4 text-pm-foreground-muted">
+          Puede que el enlace haya cambiado o que el producto ya no forme parte del menú.
+        </p>
+        <a
+          routerLink="/menu"
+          class="mt-7 inline-flex rounded-full bg-pm-orange px-6 py-3 font-black text-white hover:bg-pm-red"
+          >Volver al menú</a
+        >
+      </section>
+    }
+  </pm-page-container>
+</main>

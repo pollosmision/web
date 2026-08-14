@@ -6,6 +6,11 @@ export interface ProductPrice {
   readonly isMock: true;
 }
 
+export interface ProductOption {
+  readonly id: string;
+  readonly name: string;
+}
+
 export interface Product {
   readonly id: string;
   readonly slug: string;
@@ -18,4 +23,6 @@ export interface Product {
   readonly featured: boolean;
   readonly availability: ProductAvailability;
   readonly price: ProductPrice | null;
+  readonly sauceOptions?: readonly ProductOption[];
+  readonly additionalOptions?: readonly ProductOption[];
 }

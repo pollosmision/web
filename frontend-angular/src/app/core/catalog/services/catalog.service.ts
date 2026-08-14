@@ -18,4 +18,8 @@ export class CatalogService {
   getFeaturedProducts(): readonly Product[] {
     return PRODUCT_MOCK.filter((product) => product.featured);
   }
+
+  getProductBySlug(slug: string): Product | undefined {
+    return PRODUCT_MOCK.find((product) => product.slug === slug);
+  }
 }

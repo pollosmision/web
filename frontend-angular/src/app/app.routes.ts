@@ -16,6 +16,14 @@ export const routes: Routes = [
         title: 'Menú | Pollos Misión',
         loadComponent: () => import('./features/menu/menu').then(({ Menu }) => Menu),
       },
+      {
+        path: 'producto/:slug',
+        title: 'Producto | Pollos Misión',
+        loadComponent: () =>
+          import('./features/product-detail/product-detail').then(
+            ({ ProductDetail }) => ProductDetail,
+          ),
+      },
       ...[
         {
           path: 'promociones',

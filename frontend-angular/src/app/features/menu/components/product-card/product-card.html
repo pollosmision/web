@@ -53,6 +53,13 @@
       } @else {
         <p class="text-sm font-bold text-pm-foreground-muted">Precio por confirmar</p>
       }
+      <a
+        [routerLink]="['/producto', product().slug]"
+        class="mt-4 inline-flex font-extrabold text-pm-orange hover:text-pm-red"
+        [attr.aria-label]="'Ver detalle de ' + product().name"
+      >
+        Ver detalle <span aria-hidden="true">→</span>
+      </a>
     </div>
   </div>
 </article>

@@ -13,6 +13,15 @@ export const PRODUCT_MOCK: readonly Product[] = [
     featured: true,
     availability: 'pending-confirmation',
     price: null,
+    sauceOptions: [
+      { id: 'ketchup', name: 'Kétchup' },
+      { id: 'mayonesa', name: 'Mayonesa' },
+      { id: 'llajua', name: 'Llajua' },
+    ],
+    additionalOptions: [
+      { id: 'extra-papas', name: 'Porción adicional de papas' },
+      { id: 'extra-arroz', name: 'Porción adicional de arroz' },
+    ],
   },
   {
     id: 'pollo-canasta',
@@ -26,6 +35,12 @@ export const PRODUCT_MOCK: readonly Product[] = [
     featured: false,
     availability: 'pending-confirmation',
     price: null,
+    sauceOptions: [
+      { id: 'ketchup', name: 'Kétchup' },
+      { id: 'mayonesa', name: 'Mayonesa' },
+      { id: 'llajua', name: 'Llajua' },
+    ],
+    additionalOptions: [{ id: 'extra-papas', name: 'Porción adicional de papas' }],
   },
   {
     id: 'alitas-fingers',
@@ -39,6 +54,12 @@ export const PRODUCT_MOCK: readonly Product[] = [
     featured: true,
     availability: 'pending-confirmation',
     price: null,
+    sauceOptions: [
+      { id: 'ketchup', name: 'Kétchup' },
+      { id: 'mayonesa', name: 'Mayonesa' },
+      { id: 'llajua', name: 'Llajua' },
+    ],
+    additionalOptions: [{ id: 'extra-papas', name: 'Porción adicional de papas' }],
   },
   {
     id: 'salchipapas-clasicas',
@@ -52,6 +73,11 @@ export const PRODUCT_MOCK: readonly Product[] = [
     featured: true,
     availability: 'pending-confirmation',
     price: null,
+    sauceOptions: [
+      { id: 'ketchup', name: 'Kétchup' },
+      { id: 'mayonesa', name: 'Mayonesa' },
+    ],
+    additionalOptions: [{ id: 'extra-papas', name: 'Porción adicional de papas' }],
   },
   {
     id: 'cono-papas',
