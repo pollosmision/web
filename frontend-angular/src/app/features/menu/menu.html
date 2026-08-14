@@ -1,0 +1,94 @@
+<main class="bg-pm-background">
+  <section class="relative overflow-hidden border-b border-pm-border py-14 sm:py-18 lg:py-22">
+    <div
+      class="pointer-events-none absolute -right-20 top-0 size-64 rounded-full border border-dashed border-pm-orange/30"
+      aria-hidden="true"
+    ></div>
+    <pm-page-container>
+      <div class="relative max-w-3xl">
+        <p class="text-sm font-extrabold uppercase tracking-[0.2em] text-pm-red">Elige tu antojo</p>
+        <h1 class="mt-3 text-4xl font-black tracking-tight text-pm-foreground sm:text-5xl">
+          Menú de la misión
+        </h1>
+        <p class="mt-5 max-w-2xl text-lg leading-relaxed text-pm-foreground-muted">
+          Explora nuestras categorías. Los precios y la disponibilidad se confirmarán al realizar tu
+          pedido.
+        </p>
+      </div>
+    </pm-page-container>
+  </section>
+
+  <section class="py-10 sm:py-14 lg:py-18" aria-labelledby="products-title">
+    <pm-page-container>
+      <h2 id="products-title" class="sr-only">Productos del menú</h2>
+
+      <div
+        class="-mx-4 flex gap-2 overflow-x-auto px-4 pb-3 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0"
+        role="group"
+        aria-label="Filtrar productos por categoría"
+      >
+        <button
+          type="button"
+          class="shrink-0 rounded-full border px-5 py-3 text-sm font-extrabold"
+          [class.border-pm-orange]="activeCategory() === 'all'"
+          [class.bg-pm-orange]="activeCategory() === 'all'"
+          [class.text-white]="activeCategory() === 'all'"
+          [class.border-pm-border]="activeCategory() !== 'all'"
+          [class.bg-pm-surface]="activeCategory() !== 'all'"
+          [attr.aria-pressed]="activeCategory() === 'all'"
+          (click)="selectCategory('all')"
+        >
+          Todos
+        </button>
+
+        @for (category of categories; track category.id) {
+          <button
+            #categoryButton
+            type="button"
+            [attr.data-category]="category.slug"
+            class="shrink-0 rounded-full border px-5 py-3 text-sm font-extrabold"
+            [class.border-pm-orange]="activeCategory() === category.slug"
+            [class.bg-pm-orange]="activeCategory() === category.slug"
+            [class.text-white]="activeCategory() === category.slug"
+            [class.border-pm-border]="activeCategory() !== category.slug"
+            [class.bg-pm-surface]="activeCategory() !== category.slug"
+            [attr.aria-pressed]="activeCategory() === category.slug"
+            (click)="selectCategory(category.slug)"
+          >
+            {{ category.name }}
+          </button>
+        }
+      </div>
+
+      <p class="mt-5 text-sm font-semibold text-pm-foreground-muted" aria-live="polite">
+        {{ filteredProducts().length }}
+        {{ filteredProducts().length === 1 ? 'producto encontrado' : 'productos encontrados' }}
+      </p>
+
+      @if (filteredProducts().length) {
+        <div class="mt-7 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          @for (product of filteredProducts(); track product.id) {
+            <pm-product-card [product]="product" />
+          }
+        </div>
+      } @else {
+        <section
+          class="mt-8 rounded-pm-xl border border-dashed border-pm-orange bg-pm-surface p-10 text-center"
+          aria-labelledby="empty-menu-title"
+        >
+          <h2 id="empty-menu-title" class="text-2xl font-black">
+            No hay productos en esta categoría
+          </h2>
+          <p class="mt-3 text-pm-foreground-muted">Prueba seleccionando otra opción del menú.</p>
+          <button
+            type="button"
+            class="mt-6 rounded-full bg-pm-orange px-6 py-3 font-extrabold text-white hover:bg-pm-red"
+            (click)="selectCategory('all')"
+          >
+            Ver todos
+          </button>
+        </section>
+      }
+    </pm-page-container>
+  </section>
+</main>
