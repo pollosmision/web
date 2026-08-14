@@ -1,0 +1,22 @@
+@import 'tailwindcss';
+
+:root {
+  --pm-orange: #f58220;
+  --pm-red: #c62828;
+  --pm-brown: #5a351f;
+  --pm-dark: #211915;
+  --pm-cream: #fff8ed;
+  --pm-soft-orange: #fff0dc;
+  --pm-white: #ffffff;
+  --pm-gray-50: #fafafa;
+  --pm-gray-100: #f5f5f5;
+  --pm-gray-500: #737373;
+  --pm-gray-900: #171717;
+  --pm-success: #25d366;
+}
+
+body {
+  margin: 0;
+  color: var(--pm-dark);
+  font-family: Poppins, system-ui, sans-serif;
+}
