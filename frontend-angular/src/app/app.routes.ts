@@ -33,6 +33,16 @@ export const routes: Routes = [
           title: 'Carrito',
           description: 'El carrito estará disponible en una siguiente etapa.',
         },
+        {
+          path: 'terminos',
+          title: 'Términos y condiciones',
+          description: 'Contenido legal pendiente de publicación.',
+        },
+        {
+          path: 'privacidad',
+          title: 'Política de privacidad',
+          description: 'Contenido legal pendiente de publicación.',
+        },
       ].map(({ path, title, description }) => ({
         path,
         title: `${title} | Pollos Misión`,

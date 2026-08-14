@@ -4,7 +4,10 @@ export interface BusinessConfig {
     readonly city: string;
     readonly country: string;
   };
-  readonly phones: readonly string[];
+  readonly phones: readonly {
+    readonly display: string;
+    readonly international: string;
+  }[];
   readonly socialHandles: {
     readonly instagram: string;
     readonly facebook: string | null;
@@ -18,7 +21,10 @@ export const BUSINESS_CONFIG: BusinessConfig = {
     city: 'La Paz',
     country: 'Bolivia',
   },
-  phones: ['77632194', '60514138'],
+  phones: [
+    { display: '77632194', international: '59177632194' },
+    { display: '60514138', international: '59160514138' },
+  ],
   socialHandles: {
     instagram: 'pollosmision',
     facebook: null,
