@@ -1,0 +1,1 @@
+import{H as S,pn as x}from"./chunk-CEglSoaZ.js";import{s as u}from"./main-KE3TI6QX.js";var a=class o{constructor(i){this.catalogStore=i}catalogStore;getPromotions(){return this.catalogStore.snapshot().promotions}static ɵfac=function(n){return new(n||o)(S(u))};static ɵprov=x({token:o,factory:o.ɵfac,providedIn:`root`})};export{a as t};
