@@ -269,11 +269,11 @@
                 [alt]="promotion.imageAlt"
                 width="1254"
                 height="1254"
-                class="aspect-[4/3] w-full object-cover"
+                class="aspect-[16/10] w-full object-cover"
                 loading="lazy"
                 decoding="async"
               />
-              <div class="p-7 sm:p-8">
+              <div class="p-6 sm:p-7">
                 <p class="text-xs font-black uppercase tracking-[0.2em] text-pm-soft-orange">
                   {{ promotion.eyebrow }}
                 </p>
@@ -281,6 +281,12 @@
                 <p class="mt-4 max-w-xl leading-relaxed text-white/80">
                   {{ promotion.description }}
                 </p>
+                <a
+                  [routerLink]="['/producto', promotion.productSlug]"
+                  class="mt-6 inline-flex rounded-full bg-white px-5 py-2.5 text-sm font-black text-pm-brown transition hover:-translate-y-0.5 hover:bg-pm-soft-orange"
+                >
+                  Pedir promoción
+                </a>
               </div>
             </article>
           }

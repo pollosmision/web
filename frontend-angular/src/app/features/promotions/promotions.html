@@ -37,16 +37,22 @@
               [alt]="promotion.imageAlt"
               width="1254"
               height="1254"
-              class="aspect-[4/3] w-full object-cover"
+              class="aspect-[16/10] w-full object-cover"
               loading="lazy"
               decoding="async"
             />
-            <div class="relative p-7 sm:p-8">
+            <div class="relative p-6 sm:p-7">
               <p class="text-xs font-black uppercase tracking-[0.2em] text-pm-soft-orange">
                 {{ promotion.eyebrow }}
               </p>
               <h2 class="mt-4 text-2xl font-black sm:text-3xl">{{ promotion.title }}</h2>
               <p class="mt-4 max-w-xl leading-relaxed text-white/80">{{ promotion.description }}</p>
+              <a
+                [routerLink]="['/producto', promotion.productSlug]"
+                class="mt-6 inline-flex rounded-full bg-white px-5 py-2.5 text-sm font-black text-pm-brown transition hover:-translate-y-0.5 hover:bg-pm-soft-orange"
+              >
+                Pedir esta promoción
+              </a>
             </div>
           </article>
         }

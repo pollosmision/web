@@ -2,6 +2,20 @@ import { MenuCategory } from '../models/menu-category.model';
 
 export const CATEGORY_MOCK: readonly MenuCategory[] = [
   {
+    id: 'combos',
+    slug: 'combos',
+    name: 'Combos',
+    description: 'Combinaciones especiales para completar tu misión.',
+    visualLabel: 'CO',
+  },
+  {
+    id: 'promociones',
+    slug: 'promociones',
+    name: 'Promociones',
+    description: 'Ofertas temporales con condiciones y vigencia especiales.',
+    visualLabel: 'PR',
+  },
+  {
     id: 'pollo-broaster',
     slug: 'pollo-broaster',
     name: 'Pollo Broaster',
