@@ -4,4 +4,5 @@ export interface MenuCategory {
   readonly name: string;
   readonly description: string;
   readonly visualLabel: string;
+  readonly imageUrl: string;
 }

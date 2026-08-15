@@ -110,7 +110,7 @@
           Elige tu antojo favorito
         </h2>
         <p class="mt-4 text-pm-foreground-muted">
-          Ocho formas de disfrutar el sabor de Pollos Misión.
+          Diez formas de disfrutar el sabor de Pollos Misión.
         </p>
       </div>
 
@@ -148,25 +148,19 @@
             [queryParams]="{ categoria: category.slug }"
             class="group overflow-hidden rounded-pm-lg border border-pm-border bg-pm-background shadow-pm-sm hover:-translate-y-1 hover:border-pm-orange hover:shadow-pm-md"
           >
-            <div
-              class="relative grid aspect-[4/3] place-items-center overflow-hidden bg-gradient-to-br from-pm-soft-orange to-pm-cream"
-              role="img"
-              [attr.aria-label]="'Imagen referencial pendiente de ' + category.name"
-            >
+            <div class="relative aspect-[4/3] overflow-hidden bg-pm-cream">
+              <img
+                [src]="category.imageUrl"
+                [alt]="category.name"
+                class="size-full object-cover transition duration-300 group-hover:scale-105"
+                loading="lazy"
+                width="480"
+                height="360"
+              />
               <span
-                class="absolute size-24 rounded-full border border-pm-orange/25 sm:size-32"
+                class="absolute bottom-3 left-3 rounded-full bg-pm-dark/80 px-3 py-1 text-xs font-black text-white backdrop-blur-sm"
                 aria-hidden="true"
-              ></span>
-              <span
-                class="absolute size-16 rounded-full border border-dashed border-pm-red/30 sm:size-24"
-                aria-hidden="true"
-              ></span>
-              <span
-                class="relative grid size-14 place-items-center rounded-full bg-pm-orange text-sm font-black text-white shadow-pm-md transition-transform duration-200 group-hover:scale-110 sm:size-16"
-                aria-hidden="true"
-              >
-                {{ category.visualLabel }}
-              </span>
+              >{{ category.visualLabel }}</span>
             </div>
             <div class="p-4 sm:p-5">
               <h3 class="font-extrabold leading-tight text-pm-foreground group-hover:text-pm-red">

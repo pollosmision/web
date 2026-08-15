@@ -31,7 +31,7 @@ export class Cart {
   protected readonly hasReferencePrices = computed(() =>
     this.cart.items().some((item) => item.unitPrice?.isMock),
   );
-  protected readonly whatsappUrl = computed(() => {
+  protected readonly whatsappMessage = computed(() => {
     const productLines = this.cart.items().flatMap((item, index) => {
       const lines = [`${index + 1}. ${item.quantity} x ${item.productName}`];
 
@@ -44,7 +44,7 @@ export class Cart {
       return lines;
     });
     const subtotal = this.cart.subtotal();
-    const summary = [
+    return [
       '¡Hola, Pollos Misión! 👋',
       `Pedido a nombre de: ${this.orderName().trim() || 'por indicar'}`,
       'Quiero realizar el siguiente pedido:',
@@ -56,9 +56,11 @@ export class Cart {
       '',
       'Por favor, confirmen la disponibilidad, el total y la modalidad de entrega o recojo. Gracias.',
     ].join('\n');
-
-    return `https://wa.me/${BUSINESS_CONFIG.phones[0].international}?text=${encodeURIComponent(summary)}`;
   });
+  protected readonly whatsappUrl = computed(
+    () =>
+      `https://wa.me/${BUSINESS_CONFIG.phones[0].international}?text=${encodeURIComponent(this.whatsappMessage())}`,
+  );
 
   protected openSummary(): void {
     if (!this.validateOrderName()) return;
