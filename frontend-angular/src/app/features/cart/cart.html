@@ -130,6 +130,32 @@
               <strong class="text-right text-pm-foreground-muted">Por confirmar</strong>
             }
           </div>
+          <div class="mb-5">
+            <label for="order-name" class="block text-sm font-black text-pm-foreground">
+              ¿A nombre de quién preparamos el pedido?
+            </label>
+            <input
+              id="order-name"
+              type="text"
+              autocomplete="name"
+              maxlength="80"
+              placeholder="Nombre para el pedido"
+              class="mt-2 min-h-12 w-full rounded-pm-md border border-pm-border bg-pm-background px-4 text-pm-foreground outline-none transition placeholder:text-pm-foreground-muted/60 focus:border-pm-red focus:ring-2 focus:ring-pm-red/20"
+              [value]="orderName()"
+              [attr.aria-invalid]="orderNameError() ? true : null"
+              [attr.aria-describedby]="orderNameError() ? 'order-name-error' : null"
+              (input)="updateOrderName($event)"
+            />
+            @if (orderNameError(); as error) {
+              <p
+                id="order-name-error"
+                class="mt-1.5 text-sm font-semibold text-pm-red"
+                role="alert"
+              >
+                {{ error }}
+              </p>
+            }
+          </div>
           <p class="rounded-pm-md bg-pm-soft-orange p-4 text-sm leading-relaxed text-pm-brown">
             Tu pedido quedará confirmado cuando Pollos Misión responda por WhatsApp con la
             disponibilidad, el total y la modalidad de entrega o recojo.
@@ -141,12 +167,11 @@
           >
             Ver mi pedido
           </button>
-          <a
-            [href]="whatsappUrl()"
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            type="button"
             class="mt-3 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-pm-whatsapp px-5 py-3 text-center font-black text-white shadow-pm-sm transition hover:-translate-y-0.5 hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pm-whatsapp focus-visible:ring-offset-2"
-            aria-label="Enviar resumen del pedido por WhatsApp, abre en una pestaña nueva"
+            aria-label="Enviar resumen del pedido por WhatsApp"
+            (click)="sendWhatsapp()"
           >
             <svg
               aria-hidden="true"
@@ -168,7 +193,7 @@
               />
             </svg>
             Enviar pedido por WhatsApp
-          </a>
+          </button>
           <a
             routerLink="/menu"
             class="mt-3 inline-flex w-full justify-center rounded-full border-2 border-pm-brown px-5 py-3 font-black text-pm-brown hover:bg-pm-brown hover:text-white"
@@ -237,6 +262,7 @@
 
         <div class="max-h-[65dvh] overflow-y-auto p-5 sm:p-6">
           <p class="text-sm font-semibold text-pm-foreground-muted">{{ summaryDate() }}</p>
+          <p class="mt-2 font-black text-pm-foreground">A nombre de: {{ orderName().trim() }}</p>
           <ul class="mt-4 divide-y divide-pm-border">
             @for (item of cart.items(); track item.id) {
               <li class="py-4 first:pt-0">
@@ -296,14 +322,13 @@
           >
             {{ isDownloading() ? 'Generando…' : 'Descargar imagen' }}
           </button>
-          <a
-            [href]="whatsappUrl()"
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            type="button"
             class="rounded-full bg-pm-whatsapp px-5 py-3 text-center font-black text-white hover:brightness-110"
+            (click)="sendWhatsapp()"
           >
             Enviar por WhatsApp
-          </a>
+          </button>
         </footer>
       </div>
     </div>

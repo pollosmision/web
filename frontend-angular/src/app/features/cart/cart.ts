@@ -22,6 +22,8 @@ import { PageContainer } from '../../shared/components/page-container/page-conta
 export class Cart {
   protected readonly cart = inject(CartService);
   private readonly orderSummaryImage = inject(OrderSummaryImageService);
+  protected readonly orderName = signal('');
+  protected readonly orderNameError = signal<string | null>(null);
   protected readonly isSummaryOpen = signal(false);
   protected readonly summaryDate = signal('');
   protected readonly isDownloading = signal(false);
@@ -44,6 +46,7 @@ export class Cart {
     const subtotal = this.cart.subtotal();
     const summary = [
       '¡Hola, Pollos Misión! 👋',
+      `Pedido a nombre de: ${this.orderName().trim() || 'por indicar'}`,
       'Quiero realizar el siguiente pedido:',
       '',
       ...productLines,
@@ -58,6 +61,8 @@ export class Cart {
   });
 
   protected openSummary(): void {
+    if (!this.validateOrderName()) return;
+
     this.summaryDate.set(
       new Intl.DateTimeFormat('es-BO', { dateStyle: 'medium', timeStyle: 'short' }).format(
         new Date(),
@@ -77,6 +82,7 @@ export class Cart {
 
     try {
       await this.orderSummaryImage.download({
+        orderName: this.orderName().trim(),
         items: this.cart.items(),
         totalUnits: this.cart.totalUnits(),
         subtotal: this.cart.subtotal(),
@@ -90,8 +96,25 @@ export class Cart {
     }
   }
 
+  protected updateOrderName(event: Event): void {
+    this.orderName.set((event.target as HTMLInputElement).value);
+    if (this.orderNameError()) this.orderNameError.set(null);
+  }
+
+  protected sendWhatsapp(): void {
+    if (!this.validateOrderName()) return;
+    window.open(this.whatsappUrl(), '_blank', 'noopener,noreferrer');
+  }
+
   @HostListener('document:keydown.escape')
   protected closeSummaryWithKeyboard(): void {
     if (this.isSummaryOpen()) this.closeSummary();
+  }
+
+  private validateOrderName(): boolean {
+    if (this.orderName().trim().length >= 2) return true;
+
+    this.orderNameError.set('Ingresa el nombre para identificar tu pedido.');
+    return false;
   }
 }

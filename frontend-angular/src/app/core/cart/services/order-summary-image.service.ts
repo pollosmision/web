@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { CartItem } from '../models/cart-item.model';
 
 export interface OrderSummaryData {
+  readonly orderName: string;
   readonly items: readonly CartItem[];
   readonly totalUnits: number;
   readonly subtotal: number | null;
@@ -10,8 +11,8 @@ export interface OrderSummaryData {
   readonly hasReferencePrices: boolean;
 }
 
-const CANVAS_WIDTH = 1080;
-const SIDE_PADDING = 72;
+const CANVAS_WIDTH = 760;
+const SIDE_PADDING = 48;
 
 @Injectable({ providedIn: 'root' })
 export class OrderSummaryImageService {
@@ -19,25 +20,25 @@ export class OrderSummaryImageService {
     const itemHeight = data.items.reduce(
       (height, item) =>
         height +
-        105 +
+        90 +
         [
           item.sauceName,
           item.additionalNames.length ? item.additionalNames.join(', ') : '',
           item.observations,
         ].filter(Boolean).length *
-          32,
+          28,
       0,
     );
     const canvas = document.createElement('canvas');
     canvas.width = CANVAS_WIDTH;
-    canvas.height = 650 + itemHeight;
+    canvas.height = 580 + itemHeight;
     const context = canvas.getContext('2d');
     if (!context) throw new Error('El navegador no pudo generar la imagen.');
 
     this.drawBackground(context, canvas.height);
-    await this.drawHeader(context);
-    const contentEnd = this.drawItems(context, data.items, 280);
-    this.drawTotals(context, data, contentEnd + 36);
+    await this.drawHeader(context, data.orderName);
+    const contentEnd = this.drawItems(context, data.items, 330);
+    this.drawTotals(context, data, contentEnd + 28);
 
     const blob = await new Promise<Blob>((resolve, reject) => {
       canvas.toBlob((result) => {
@@ -54,31 +55,40 @@ export class OrderSummaryImageService {
   }
 
   private drawBackground(context: CanvasRenderingContext2D, height: number): void {
-    context.fillStyle = '#fffaf0';
+    context.fillStyle = '#ffffff';
     context.fillRect(0, 0, CANVAS_WIDTH, height);
-    context.fillStyle = '#1a1a1a';
-    context.fillRect(0, 0, CANVAS_WIDTH, 230);
-    context.fillStyle = '#cc0000';
-    context.fillRect(0, 220, CANVAS_WIDTH, 10);
+    context.strokeStyle = '#111111';
+    context.lineWidth = 3;
+    context.strokeRect(20, 20, CANVAS_WIDTH - 40, height - 40);
   }
 
-  private async drawHeader(context: CanvasRenderingContext2D): Promise<void> {
+  private async drawHeader(context: CanvasRenderingContext2D, orderName: string): Promise<void> {
     try {
       const logo = await this.loadImage('/images/brand/isotipo-pollos-mision.png');
-      context.drawImage(logo, SIDE_PADDING, 54, 140, 100);
+      context.filter = 'grayscale(1) contrast(1.25)';
+      context.drawImage(logo, (CANVAS_WIDTH - 130) / 2, 45, 130, 92);
+      context.filter = 'none';
     } catch {
       // The text header remains usable if the image cannot be loaded.
     }
 
-    context.fillStyle = '#ffffff';
-    context.font = '900 52px Arial, sans-serif';
-    context.fillText('MI PEDIDO', 250, 105);
-    context.fillStyle = '#ffcc00';
+    context.textAlign = 'center';
+    context.fillStyle = '#111111';
+    context.font = '900 38px Arial, sans-serif';
+    context.fillText('POLLOS MISIÓN', CANVAS_WIDTH / 2, 176);
     context.font = '700 28px Arial, sans-serif';
-    context.fillText('POLLOS MISIÓN', 250, 150);
-    context.fillStyle = 'rgba(255,255,255,0.68)';
-    context.font = '24px Arial, sans-serif';
-    context.fillText('Resumen pendiente de confirmación', 250, 188);
+    context.fillText('MI PEDIDO', CANVAS_WIDTH / 2, 215);
+    context.font = '20px Arial, sans-serif';
+    context.fillText('Pendiente de confirmación', CANVAS_WIDTH / 2, 246);
+    context.font = '700 21px Arial, sans-serif';
+    this.drawTruncatedText(
+      context,
+      `A NOMBRE DE: ${orderName.toUpperCase()}`,
+      CANVAS_WIDTH / 2,
+      288,
+      CANVAS_WIDTH - SIDE_PADDING * 2,
+    );
+    context.textAlign = 'left';
   }
 
   private drawItems(
@@ -89,13 +99,19 @@ export class OrderSummaryImageService {
     let y = initialY;
 
     items.forEach((item, index) => {
-      context.fillStyle = '#333333';
-      context.font = '700 30px Arial, sans-serif';
-      context.fillText(`${item.quantity} × ${item.productName}`, SIDE_PADDING, y);
+      context.fillStyle = '#111111';
+      context.font = '700 24px Arial, sans-serif';
+      this.drawTruncatedText(
+        context,
+        `${item.quantity} x ${item.productName}`,
+        SIDE_PADDING,
+        y,
+        460,
+      );
 
       if (item.unitPrice) {
         context.textAlign = 'right';
-        context.fillStyle = '#990000';
+        context.fillStyle = '#111111';
         context.fillText(
           `Bs ${(item.unitPrice.amount * item.quantity).toFixed(2)}`,
           CANVAS_WIDTH - SIDE_PADDING,
@@ -104,31 +120,38 @@ export class OrderSummaryImageService {
         context.textAlign = 'left';
       }
 
-      y += 42;
-      context.font = '24px Arial, sans-serif';
-      context.fillStyle = '#666666';
+      y += 34;
+      context.font = '19px Arial, sans-serif';
+      context.fillStyle = '#444444';
       if (item.sauceName) {
-        context.fillText(`Salsa: ${item.sauceName}`, SIDE_PADDING + 24, y);
-        y += 32;
+        this.drawTruncatedText(context, `Salsa: ${item.sauceName}`, SIDE_PADDING + 18, y, 640);
+        y += 28;
       }
       if (item.additionalNames.length) {
-        context.fillText(`Adicionales: ${item.additionalNames.join(', ')}`, SIDE_PADDING + 24, y);
-        y += 32;
+        this.drawTruncatedText(
+          context,
+          `Adicionales: ${item.additionalNames.join(', ')}`,
+          SIDE_PADDING + 18,
+          y,
+          640,
+        );
+        y += 28;
       }
       if (item.observations) {
-        context.fillText(`Observaciones: ${item.observations}`, SIDE_PADDING + 24, y);
-        y += 32;
+        this.drawTruncatedText(
+          context,
+          `Observaciones: ${item.observations}`,
+          SIDE_PADDING + 18,
+          y,
+          640,
+        );
+        y += 28;
       }
 
-      y += 28;
+      y += 22;
       if (index < items.length - 1) {
-        context.strokeStyle = '#eadfcf';
-        context.lineWidth = 2;
-        context.beginPath();
-        context.moveTo(SIDE_PADDING, y);
-        context.lineTo(CANVAS_WIDTH - SIDE_PADDING, y);
-        context.stroke();
-        y += 48;
+        this.drawDashedLine(context, y);
+        y += 34;
       }
     });
 
@@ -140,38 +163,73 @@ export class OrderSummaryImageService {
     data: OrderSummaryData,
     initialY: number,
   ): void {
-    context.fillStyle = '#fff5cc';
-    context.roundRect(SIDE_PADDING, initialY, CANVAS_WIDTH - SIDE_PADDING * 2, 190, 24);
-    context.fill();
-
-    context.fillStyle = '#333333';
-    context.font = '700 27px Arial, sans-serif';
-    context.fillText(`Total de unidades: ${data.totalUnits}`, SIDE_PADDING + 32, initialY + 55);
+    this.drawDashedLine(context, initialY);
+    context.fillStyle = '#111111';
+    context.font = '700 22px Arial, sans-serif';
+    context.fillText(`UNIDADES: ${data.totalUnits}`, SIDE_PADDING, initialY + 48);
     context.fillText(
-      `Subtotal${data.hasReferencePrices ? ' referencial' : ''}:`,
-      SIDE_PADDING + 32,
-      initialY + 105,
+      `SUBTOTAL${data.hasReferencePrices ? ' REFERENCIAL' : ''}`,
+      SIDE_PADDING,
+      initialY + 92,
     );
     context.textAlign = 'right';
-    context.fillStyle = '#990000';
-    context.font = '900 34px Arial, sans-serif';
+    context.fillStyle = '#111111';
+    context.font = '900 28px Arial, sans-serif';
     context.fillText(
       data.subtotal === null ? 'Por confirmar' : `Bs ${data.subtotal.toFixed(2)}`,
-      CANVAS_WIDTH - SIDE_PADDING - 32,
-      initialY + 105,
+      CANVAS_WIDTH - SIDE_PADDING,
+      initialY + 92,
     );
     context.textAlign = 'left';
-    context.fillStyle = '#666666';
-    context.font = '22px Arial, sans-serif';
-    context.fillText(data.createdAt, SIDE_PADDING + 32, initialY + 152);
+    context.fillStyle = '#444444';
+    context.font = '19px Arial, sans-serif';
+    context.fillText(data.createdAt, SIDE_PADDING, initialY + 132);
 
-    context.fillStyle = '#333333';
-    context.font = '700 24px Arial, sans-serif';
+    context.textAlign = 'center';
+    context.fillStyle = '#111111';
+    context.font = '18px Arial, sans-serif';
     context.fillText(
       'Confirma disponibilidad, total y entrega por WhatsApp.',
-      SIDE_PADDING,
-      initialY + 250,
+      CANVAS_WIDTH / 2,
+      initialY + 190,
     );
+    context.fillText(
+      'Este resumen no es una factura ni comprobante de pago.',
+      CANVAS_WIDTH / 2,
+      initialY + 222,
+    );
+    context.textAlign = 'left';
+  }
+
+  private drawDashedLine(context: CanvasRenderingContext2D, y: number): void {
+    context.save();
+    context.strokeStyle = '#777777';
+    context.lineWidth = 2;
+    context.setLineDash([10, 8]);
+    context.beginPath();
+    context.moveTo(SIDE_PADDING, y);
+    context.lineTo(CANVAS_WIDTH - SIDE_PADDING, y);
+    context.stroke();
+    context.restore();
+  }
+
+  private drawTruncatedText(
+    context: CanvasRenderingContext2D,
+    text: string,
+    x: number,
+    y: number,
+    maxWidth: number,
+  ): void {
+    if (context.measureText(text).width <= maxWidth) {
+      context.fillText(text, x, y);
+      return;
+    }
+
+    let shortened = text;
+    while (shortened.length && context.measureText(`${shortened}…`).width > maxWidth) {
+      shortened = shortened.slice(0, -1);
+    }
+    context.fillText(`${shortened}…`, x, y);
   }
 
   private loadImage(source: string): Promise<HTMLImageElement> {
