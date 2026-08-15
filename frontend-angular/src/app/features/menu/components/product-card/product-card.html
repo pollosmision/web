@@ -49,7 +49,9 @@
       @if (product().price; as price) {
         <p class="font-black text-pm-red">
           {{ price.currency }} {{ price.amount.toFixed(2) }}
-          <span class="sr-only">Precio mock de referencia</span>
+          @if (price.isMock) {
+            <span class="ml-1 text-xs font-semibold text-pm-foreground-muted">Referencial</span>
+          }
         </p>
       } @else {
         <p class="text-sm font-bold text-pm-foreground-muted">Precio por confirmar</p>

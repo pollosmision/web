@@ -13,7 +13,7 @@ export const PRODUCT_MOCK: readonly Product[] = [
     visualLabel: 'PM',
     featured: false,
     availability: 'pending-confirmation',
-    price: null,
+    price: { amount: 24, currency: 'BOB', isMock: true },
   },
   {
     id: 'promo-miercoles-galactico',
@@ -27,7 +27,7 @@ export const PRODUCT_MOCK: readonly Product[] = [
     visualLabel: 'MG',
     featured: false,
     availability: 'pending-confirmation',
-    price: null,
+    price: { amount: 21.25, currency: 'BOB', isMock: true },
   },
   {
     id: 'promo-viernes-despegue',
@@ -41,7 +41,7 @@ export const PRODUCT_MOCK: readonly Product[] = [
     visualLabel: 'VD',
     featured: false,
     availability: 'pending-confirmation',
-    price: null,
+    price: { amount: 16.2, currency: 'BOB', isMock: true },
   },
   {
     id: 'combo-pollo-refresco',
@@ -54,7 +54,7 @@ export const PRODUCT_MOCK: readonly Product[] = [
     visualLabel: 'PR',
     featured: false,
     availability: 'pending-confirmation',
-    price: null,
+    price: { amount: 30, currency: 'BOB', isMock: true },
   },
   {
     id: 'combo-salchipapa-jugo',
@@ -67,7 +67,7 @@ export const PRODUCT_MOCK: readonly Product[] = [
     visualLabel: 'SJ',
     featured: false,
     availability: 'pending-confirmation',
-    price: null,
+    price: { amount: 25, currency: 'BOB', isMock: true },
   },
   {
     id: 'combo-cono-jugo',
@@ -80,7 +80,7 @@ export const PRODUCT_MOCK: readonly Product[] = [
     visualLabel: 'CJ',
     featured: false,
     availability: 'pending-confirmation',
-    price: null,
+    price: { amount: 18, currency: 'BOB', isMock: true },
   },
   {
     id: 'broaster-clasico',
@@ -93,7 +93,7 @@ export const PRODUCT_MOCK: readonly Product[] = [
     visualLabel: 'PB',
     featured: true,
     availability: 'pending-confirmation',
-    price: null,
+    price: { amount: 20, currency: 'BOB', isMock: true },
     sauceOptions: [
       { id: 'ketchup', name: 'Kétchup' },
       { id: 'mayonesa', name: 'Mayonesa' },
@@ -115,7 +115,7 @@ export const PRODUCT_MOCK: readonly Product[] = [
     visualLabel: 'PC',
     featured: false,
     availability: 'pending-confirmation',
-    price: null,
+    price: { amount: 22, currency: 'BOB', isMock: true },
     sauceOptions: [
       { id: 'ketchup', name: 'Kétchup' },
       { id: 'mayonesa', name: 'Mayonesa' },
@@ -134,7 +134,7 @@ export const PRODUCT_MOCK: readonly Product[] = [
     visualLabel: 'AF',
     featured: true,
     availability: 'pending-confirmation',
-    price: null,
+    price: { amount: 22, currency: 'BOB', isMock: true },
     sauceOptions: [
       { id: 'ketchup', name: 'Kétchup' },
       { id: 'mayonesa', name: 'Mayonesa' },
@@ -153,7 +153,7 @@ export const PRODUCT_MOCK: readonly Product[] = [
     visualLabel: 'SP',
     featured: true,
     availability: 'pending-confirmation',
-    price: null,
+    price: { amount: 17, currency: 'BOB', isMock: true },
     sauceOptions: [
       { id: 'ketchup', name: 'Kétchup' },
       { id: 'mayonesa', name: 'Mayonesa' },
@@ -171,7 +171,7 @@ export const PRODUCT_MOCK: readonly Product[] = [
     visualLabel: 'CP',
     featured: false,
     availability: 'pending-confirmation',
-    price: null,
+    price: { amount: 10, currency: 'BOB', isMock: true },
   },
   {
     id: 'extra-papas',
@@ -184,7 +184,7 @@ export const PRODUCT_MOCK: readonly Product[] = [
     visualLabel: 'EX',
     featured: false,
     availability: 'pending-confirmation',
-    price: null,
+    price: { amount: 10, currency: 'BOB', isMock: true },
   },
   {
     id: 'gaseosa',
@@ -197,7 +197,7 @@ export const PRODUCT_MOCK: readonly Product[] = [
     visualLabel: 'GA',
     featured: false,
     availability: 'pending-confirmation',
-    price: null,
+    price: { amount: 8, currency: 'BOB', isMock: true },
   },
   {
     id: 'chicha-morada',
@@ -210,6 +210,6 @@ export const PRODUCT_MOCK: readonly Product[] = [
     visualLabel: 'CM',
     featured: false,
     availability: 'pending-confirmation',
-    price: null,
+    price: { amount: 8, currency: 'BOB', isMock: true },
   },
 ];

@@ -111,4 +111,34 @@ describe('CartService', () => {
     expect(service.items()).toHaveLength(1);
     expect(service.totalUnits()).toBe(2);
   });
+
+  it('refreshes a stored price from the current catalog', () => {
+    localStorage.setItem(
+      'pollos-mision-cart',
+      JSON.stringify({
+        version: 1,
+        items: [
+          {
+            id: 'broaster-clasico::::::',
+            productId: 'broaster-clasico',
+            productSlug: 'broaster-clasico',
+            productName: 'Nombre anterior',
+            imageUrl: null,
+            visualLabel: 'XX',
+            quantity: 2,
+            unitPrice: null,
+            sauceName: null,
+            additionalNames: [],
+            observations: '',
+          },
+        ],
+      }),
+    );
+
+    const service = TestBed.inject(CartService);
+
+    expect(service.items()[0]?.productName).toBe('Broaster Clásico');
+    expect(service.items()[0]?.unitPrice?.amount).toBe(20);
+    expect(service.subtotal()).toBe(40);
+  });
 });

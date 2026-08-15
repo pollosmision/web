@@ -118,7 +118,12 @@
             <span>Unidades</span><strong class="text-pm-foreground">{{ cart.totalUnits() }}</strong>
           </div>
           <div class="flex justify-between gap-4 py-5">
-            <span class="font-bold">Subtotal</span>
+            <span class="font-bold">
+              Subtotal
+              @if (hasReferencePrices()) {
+                <small class="block font-normal text-pm-foreground-muted">Referencial</small>
+              }
+            </span>
             @if (cart.subtotal(); as subtotal) {
               <strong class="text-pm-red">BOB {{ subtotal.toFixed(2) }}</strong>
             } @else {
@@ -126,7 +131,8 @@
             }
           </div>
           <p class="rounded-pm-md bg-pm-soft-orange p-4 text-sm leading-relaxed text-pm-brown">
-            Los precios y la disponibilidad se confirmarán antes de completar el pedido.
+            Tu pedido quedará confirmado cuando Pollos Misión responda por WhatsApp con la
+            disponibilidad, el total y la modalidad de entrega o recojo.
           </p>
           <a
             [href]="whatsappUrl()"

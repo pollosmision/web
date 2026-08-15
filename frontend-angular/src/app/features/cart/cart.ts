@@ -13,6 +13,9 @@ import { PageContainer } from '../../shared/components/page-container/page-conta
 })
 export class Cart {
   protected readonly cart = inject(CartService);
+  protected readonly hasReferencePrices = computed(() =>
+    this.cart.items().some((item) => item.unitPrice?.isMock),
+  );
   protected readonly whatsappUrl = computed(() => {
     const productLines = this.cart.items().flatMap((item, index) => {
       const lines = [`${index + 1}. ${item.quantity} x ${item.productName}`];
@@ -33,7 +36,7 @@ export class Cart {
       ...productLines,
       '',
       `Total de unidades: ${this.cart.totalUnits()}`,
-      `Subtotal: ${subtotal === null ? 'por confirmar' : `BOB ${subtotal.toFixed(2)}`}`,
+      `Subtotal${this.hasReferencePrices() ? ' referencial' : ''}: ${subtotal === null ? 'por confirmar' : `BOB ${subtotal.toFixed(2)}`}`,
       '',
       'Por favor, confirmen la disponibilidad, el total y la modalidad de entrega o recojo. Gracias.',
     ].join('\n');

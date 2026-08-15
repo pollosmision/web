@@ -2,6 +2,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Injectable, PLATFORM_ID, computed, effect, inject, signal } from '@angular/core';
 
 import { ProductPrice } from '../../catalog/models/product.model';
+import { CatalogService } from '../../catalog/services/catalog.service';
 import { AddToCartSelection, CartItem } from '../models/cart-item.model';
 
 const CART_STORAGE_KEY = 'pollos-mision-cart';
@@ -15,6 +16,7 @@ interface StoredCart {
 
 @Injectable({ providedIn: 'root' })
 export class CartService {
+  private readonly catalog = inject(CatalogService);
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private readonly itemsState = signal<readonly CartItem[]>(this.restoreCart());
 
@@ -57,6 +59,10 @@ export class CartService {
         currentItem.id === item.id
           ? {
               ...currentItem,
+              productName: item.productName,
+              imageUrl: item.imageUrl,
+              visualLabel: item.visualLabel,
+              unitPrice: item.unitPrice,
               quantity: Math.min(MAX_ITEM_QUANTITY, currentItem.quantity + item.quantity),
             }
           : currentItem,
@@ -139,7 +145,19 @@ export class CartService {
         return [];
       }
 
-      return parsedCart.items;
+      return parsedCart.items.map((item) => {
+        const currentProduct = this.catalog.getProductBySlug(item.productSlug);
+        if (!currentProduct) return item;
+
+        return {
+          ...item,
+          productId: currentProduct.id,
+          productName: currentProduct.name,
+          imageUrl: currentProduct.imageUrl,
+          visualLabel: currentProduct.visualLabel,
+          unitPrice: currentProduct.price,
+        };
+      });
     } catch {
       localStorage.removeItem(CART_STORAGE_KEY);
       return [];
@@ -184,7 +202,7 @@ function isProductPrice(value: unknown): value is ProductPrice | null {
       Number.isFinite(value['amount']) &&
       value['amount'] >= 0 &&
       value['currency'] === 'BOB' &&
-      value['isMock'] === true)
+      typeof value['isMock'] === 'boolean')
   );
 }
 
