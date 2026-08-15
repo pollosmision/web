@@ -6,46 +6,21 @@
         Encuentra nuestra base
       </h1>
       <p class="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-pm-foreground-muted">
-        Estamos en {{ business.location.city }}, {{ business.location.country }}. Publicaremos la
-        dirección exacta cuando sea confirmada.
+        Estamos en {{ business.location.address }}, {{ business.location.city }},
+        {{ business.location.country }}.
       </p>
     </div>
 
     <div
       class="mt-12 grid overflow-hidden rounded-pm-xl border border-pm-border bg-pm-surface shadow-pm-md lg:grid-cols-[1.2fr_0.8fr]"
     >
-      <div
-        class="relative min-h-[24rem] overflow-hidden bg-pm-soft-orange p-8"
-        role="img"
-        aria-label="Placeholder de mapa de Pollos Misión en La Paz, Bolivia"
-      >
-        <div
-          class="absolute -left-20 top-12 size-72 rounded-full border-2 border-dashed border-pm-brown/20"
-          aria-hidden="true"
-        ></div>
-        <div
-          class="absolute bottom-12 right-10 grid size-28 place-items-center rounded-full bg-pm-red text-white shadow-pm-md"
-          aria-hidden="true"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            class="size-12"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"
-            />
-            <circle cx="12" cy="10" r="2.5" />
-          </svg>
-        </div>
-        <p class="relative max-w-sm text-sm font-black uppercase tracking-[0.18em] text-pm-brown">
-          Mapa pendiente de la dirección oficial
-        </p>
-      </div>
+      <iframe
+        [src]="mapEmbedUrl"
+        class="min-h-[24rem] size-full border-0"
+        title="Mapa de Pollos Misión en Mallasa"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
 
       <section class="flex flex-col justify-center p-8 sm:p-10" aria-labelledby="contact-title">
         <p class="text-sm font-extrabold uppercase tracking-[0.2em] text-pm-red">Contacto</p>
@@ -65,12 +40,32 @@
             </li>
           }
         </ul>
-        <div
-          class="mt-7 rounded-pm-md border border-dashed border-pm-orange p-4 text-sm text-pm-foreground-muted"
-        >
-          <strong class="text-pm-foreground">Información pendiente:</strong> dirección exacta y
-          horarios de atención.
+        <div class="mt-7 space-y-4 rounded-pm-md border border-pm-border bg-pm-background p-5">
+          <div>
+            <h3 class="font-black text-pm-foreground">Dirección</h3>
+            <p class="mt-1 text-sm text-pm-foreground-muted">{{ business.location.address }}</p>
+          </div>
+          <div>
+            <h3 class="font-black text-pm-foreground">Horario nocturno</h3>
+            <p class="mt-1 text-sm text-pm-foreground-muted">
+              {{ business.hours[0].days }}, de {{ business.hours[0].opensAt }} a
+              {{ business.hours[0].closesAt }}
+            </p>
+          </div>
+          <div>
+            <h3 class="font-black text-pm-foreground">Atención</h3>
+            <p class="mt-1 text-sm text-pm-foreground-muted">
+              {{ business.serviceModes.join(' y ') }}
+            </p>
+          </div>
         </div>
+        <a
+          [href]="business.location.directionsUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-6 inline-flex w-fit rounded-full bg-pm-primary px-6 py-3 font-black text-white hover:bg-pm-red"
+          >Cómo llegar</a
+        >
       </section>
     </div>
   </pm-page-container>

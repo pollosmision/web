@@ -322,38 +322,13 @@
       <div
         class="grid overflow-hidden rounded-pm-xl border border-pm-border bg-pm-background shadow-pm-md lg:grid-cols-2"
       >
-        <div
-          class="relative min-h-72 overflow-hidden bg-pm-soft-orange p-8 sm:p-12"
-          role="img"
-          aria-label="Placeholder de mapa para la ubicación de Pollos Misión en La Paz"
-        >
-          <div
-            class="absolute -left-16 top-8 size-56 rounded-full border-2 border-dashed border-pm-brown/20"
-            aria-hidden="true"
-          ></div>
-          <div
-            class="absolute bottom-8 right-8 grid size-24 place-items-center rounded-full bg-pm-red text-white shadow-pm-md"
-            aria-hidden="true"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              class="size-11"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"
-              />
-              <circle cx="12" cy="10" r="2.5" />
-            </svg>
-          </div>
-          <p class="relative max-w-xs text-sm font-bold uppercase tracking-[0.18em] text-pm-brown">
-            Mapa y dirección exacta pendientes de confirmación
-          </p>
-        </div>
+        <iframe
+          [src]="mapEmbedUrl"
+          class="min-h-72 size-full border-0"
+          title="Mapa de Pollos Misión en Mallasa"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
         <div class="flex flex-col justify-center p-8 sm:p-12">
           <p class="text-sm font-extrabold uppercase tracking-[0.2em] text-pm-red">
             Nuestra ubicación
@@ -361,17 +336,28 @@
           <h2 id="location-title" class="mt-3 text-3xl font-black tracking-tight sm:text-4xl">
             Encuentra nuestra base
           </h2>
-          <p class="mt-5 text-lg text-pm-foreground-muted">
-            {{ business.location.city }}, {{ business.location.country }}
+          <p class="mt-5 text-lg font-bold text-pm-foreground">
+            {{ business.location.address }}
           </p>
           <p class="mt-2 text-sm text-pm-foreground-muted">
-            La dirección exacta será publicada próximamente.
+            {{ business.location.city }}, {{ business.location.country }} ·
+            {{ business.hours[0].days }}, de {{ business.hours[0].opensAt }} a
+            {{ business.hours[0].closesAt }}
           </p>
-          <a
-            routerLink="/ubicacion"
-            class="mt-7 inline-flex w-fit rounded-full border-2 border-pm-brown px-6 py-3 font-extrabold text-pm-brown hover:bg-pm-brown hover:text-white"
-            >Ver ubicación</a
-          >
+          <div class="mt-7 flex flex-wrap gap-3">
+            <a
+              [href]="business.location.directionsUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex rounded-full bg-pm-primary px-6 py-3 font-extrabold text-white hover:bg-pm-red"
+              >Cómo llegar</a
+            >
+            <a
+              routerLink="/ubicacion"
+              class="inline-flex rounded-full border-2 border-pm-brown px-6 py-3 font-extrabold text-pm-brown hover:bg-pm-brown hover:text-white"
+              >Ver detalles</a
+            >
+          </div>
         </div>
       </div>
     </pm-page-container>

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { CatalogService } from '../../core/catalog/services/catalog.service';
@@ -24,11 +24,32 @@ export class ProductDetail {
     this.route.snapshot.paramMap.get('slug') ?? '',
   );
   protected readonly quantity = signal(MIN_QUANTITY);
-  protected readonly selectedSauce = signal<string | null>(null);
+  protected readonly selectedSauces = signal<ReadonlySet<string>>(new Set());
   protected readonly selectedAdditionals = signal<ReadonlySet<string>>(new Set());
   protected readonly observations = signal('');
   protected readonly confirmationMessage = signal<string | null>(null);
+  protected readonly sauceError = signal<string | null>(null);
   protected readonly maxObservationLength = MAX_OBSERVATION_LENGTH;
+  protected readonly selectedUnitPrice = computed(() => {
+    if (!this.product?.price) return null;
+
+    const selectedSauceOptions =
+      this.product.sauceOptions?.filter((option) => this.selectedSauces().has(option.id)) ?? [];
+    const includedSauces = this.product.sauceSelection?.included ?? 0;
+    const sauceAmount = selectedSauceOptions
+      .slice(includedSauces)
+      .reduce((total, option) => total + option.price.amount, 0);
+    const additionalAmount =
+      this.product.additionalOptions
+        ?.filter((option) => this.selectedAdditionals().has(option.id))
+        .reduce((total, option) => total + option.price.amount, 0) ?? 0;
+
+    return this.product.price.amount + sauceAmount + additionalAmount;
+  });
+  protected readonly selectionTotal = computed(() => {
+    const unitPrice = this.selectedUnitPrice();
+    return unitPrice === null ? null : unitPrice * this.quantity();
+  });
 
   protected decreaseQuantity(): void {
     this.quantity.update((quantity) => Math.max(MIN_QUANTITY, quantity - 1));
@@ -38,8 +59,18 @@ export class ProductDetail {
     this.quantity.update((quantity) => Math.min(MAX_QUANTITY, quantity + 1));
   }
 
-  protected selectSauce(sauceId: string): void {
-    this.selectedSauce.set(sauceId);
+  protected toggleSauce(sauceId: string): void {
+    const maximum = this.product?.sauceSelection?.maximum ?? 1;
+    this.selectedSauces.update((selected) => {
+      const nextSelection = new Set(selected);
+      if (nextSelection.has(sauceId)) {
+        nextSelection.delete(sauceId);
+      } else if (nextSelection.size < maximum) {
+        nextSelection.add(sauceId);
+      }
+      return nextSelection;
+    });
+    this.sauceError.set(null);
   }
 
   protected toggleAdditional(additionalId: string): void {
@@ -62,18 +93,19 @@ export class ProductDetail {
   protected prepareOrder(): void {
     if (!this.product) return;
 
-    const sauceName =
-      this.product.sauceOptions?.find((sauce) => sauce.id === this.selectedSauce())?.name ?? null;
-    const additionalNames =
-      this.product.additionalOptions
-        ?.filter((additional) => this.selectedAdditionals().has(additional.id))
-        .map((additional) => additional.name) ?? [];
+    const sauceRule = this.product.sauceSelection;
+    if (sauceRule && this.selectedSauces().size < sauceRule.minimum) {
+      this.sauceError.set(
+        `Debes elegir ${sauceRule.minimum} salsas para agregar este producto al pedido.`,
+      );
+      return;
+    }
 
     this.cartService.addItem({
       product: this.product,
       quantity: this.quantity(),
-      sauceName,
-      additionalNames,
+      sauceIds: [...this.selectedSauces()],
+      additionalIds: [...this.selectedAdditionals()],
       observations: this.observations(),
     });
     this.confirmationMessage.set('Producto agregado al pedido correctamente.');

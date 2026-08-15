@@ -33,6 +33,7 @@
   --pm-foreground-muted: var(--pm-warm-muted);
   --pm-border: var(--pm-warm-border);
   --pm-focus: var(--pm-primary);
+  --pm-header-pollos: var(--pm-orange);
 
   --pm-font-sans: Poppins, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --pm-radius-sm: 0.5rem;
@@ -57,6 +58,7 @@
   --pm-soft-orange: #3b3520;
   --pm-cream: #332f1f;
   --pm-focus: var(--pm-yellow);
+  --pm-header-pollos: var(--pm-white);
   --pm-shadow-sm: 0 1px 3px rgb(0 0 0 / 24%);
   --pm-shadow-md: 0 12px 32px rgb(0 0 0 / 32%);
 }
@@ -79,6 +81,7 @@
   --color-pm-foreground: var(--pm-foreground);
   --color-pm-foreground-muted: var(--pm-foreground-muted);
   --color-pm-border: var(--pm-border);
+  --color-pm-header-pollos: var(--pm-header-pollos);
   --font-sans: var(--pm-font-sans);
   --radius-pm-sm: var(--pm-radius-sm);
   --radius-pm-md: var(--pm-radius-md);

@@ -6,7 +6,7 @@ import { CatalogService } from '../../catalog/services/catalog.service';
 import { AddToCartSelection, CartItem } from '../models/cart-item.model';
 
 const CART_STORAGE_KEY = 'pollos-mision-cart';
-const CART_STORAGE_VERSION = 1;
+const CART_STORAGE_VERSION = 3;
 const MAX_ITEM_QUANTITY = 99;
 
 interface StoredCart {
@@ -108,14 +108,32 @@ export class CartService {
   }
 
   private createCartItem(selection: AddToCartSelection): CartItem {
-    const additionalNames = [...selection.additionalNames].sort();
+    const sauces =
+      selection.product.sauceOptions?.filter((option) => selection.sauceIds.includes(option.id)) ??
+      [];
+    const sauceIds = sauces.map((option) => option.id).sort();
+    const sauceNames = sauces.map((option) => option.name).sort();
+    const additionals =
+      selection.product.additionalOptions?.filter((option) =>
+        selection.additionalIds.includes(option.id),
+      ) ?? [];
+    const additionalIds = additionals.map((option) => option.id).sort();
+    const additionalNames = additionals.map((option) => option.name).sort();
     const normalizedObservations = selection.observations.trim();
     const id = [
       selection.product.id,
-      selection.sauceName ?? '',
-      additionalNames.join(','),
+      sauceIds.join(','),
+      additionalIds.join(','),
       normalizedObservations,
     ].join('::');
+
+    const includedSauces = selection.product.sauceSelection?.included ?? 0;
+    const optionAmount =
+      sauces.slice(includedSauces).reduce((total, option) => total + option.price.amount, 0) +
+      additionals.reduce((total, option) => total + option.price.amount, 0);
+    const unitPrice = selection.product.price
+      ? { ...selection.product.price, amount: selection.product.price.amount + optionAmount }
+      : null;
 
     return {
       id,
@@ -125,8 +143,10 @@ export class CartService {
       imageUrl: selection.product.imageUrl,
       visualLabel: selection.product.visualLabel,
       quantity: Math.min(MAX_ITEM_QUANTITY, Math.max(1, selection.quantity)),
-      unitPrice: selection.product.price,
-      sauceName: selection.sauceName,
+      unitPrice,
+      sauceIds,
+      sauceNames,
+      additionalIds,
       additionalNames,
       observations: normalizedObservations,
     };
@@ -149,13 +169,29 @@ export class CartService {
         const currentProduct = this.catalog.getProductBySlug(item.productSlug);
         if (!currentProduct) return item;
 
+        const sauces =
+          currentProduct.sauceOptions?.filter((option) => item.sauceIds.includes(option.id)) ?? [];
+        const additionals =
+          currentProduct.additionalOptions?.filter((option) =>
+            item.additionalIds.includes(option.id),
+          ) ?? [];
+        const includedSauces = currentProduct.sauceSelection?.included ?? 0;
+        const optionAmount =
+          sauces.slice(includedSauces).reduce((total, option) => total + option.price.amount, 0) +
+          additionals.reduce((total, option) => total + option.price.amount, 0);
+        const unitPrice = currentProduct.price
+          ? { ...currentProduct.price, amount: currentProduct.price.amount + optionAmount }
+          : null;
+
         return {
           ...item,
           productId: currentProduct.id,
           productName: currentProduct.name,
           imageUrl: currentProduct.imageUrl,
           visualLabel: currentProduct.visualLabel,
-          unitPrice: currentProduct.price,
+          unitPrice,
+          sauceNames: sauces.map((option) => option.name).sort(),
+          additionalNames: additionals.map((option) => option.name).sort(),
         };
       });
     } catch {
@@ -187,7 +223,12 @@ function isCartItem(value: unknown): value is CartItem {
     Number(value['quantity']) >= 1 &&
     Number(value['quantity']) <= MAX_ITEM_QUANTITY &&
     isProductPrice(value['unitPrice']) &&
-    (typeof value['sauceName'] === 'string' || value['sauceName'] === null) &&
+    Array.isArray(value['sauceIds']) &&
+    value['sauceIds'].every((id: unknown) => typeof id === 'string') &&
+    Array.isArray(value['sauceNames']) &&
+    value['sauceNames'].every((name: unknown) => typeof name === 'string') &&
+    Array.isArray(value['additionalIds']) &&
+    value['additionalIds'].every((id: unknown) => typeof id === 'string') &&
     Array.isArray(value['additionalNames']) &&
     value['additionalNames'].every((name: unknown) => typeof name === 'string') &&
     typeof value['observations'] === 'string'

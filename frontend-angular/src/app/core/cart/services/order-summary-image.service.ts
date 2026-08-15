@@ -8,7 +8,6 @@ export interface OrderSummaryData {
   readonly totalUnits: number;
   readonly subtotal: number | null;
   readonly createdAt: string;
-  readonly hasReferencePrices: boolean;
 }
 
 const CANVAS_WIDTH = 760;
@@ -22,7 +21,7 @@ export class OrderSummaryImageService {
         height +
         90 +
         [
-          item.sauceName,
+          item.sauceNames.length ? item.sauceNames.join(', ') : '',
           item.additionalNames.length ? item.additionalNames.join(', ') : '',
           item.observations,
         ].filter(Boolean).length *
@@ -123,8 +122,14 @@ export class OrderSummaryImageService {
       y += 34;
       context.font = '19px Arial, sans-serif';
       context.fillStyle = '#444444';
-      if (item.sauceName) {
-        this.drawTruncatedText(context, `Salsa: ${item.sauceName}`, SIDE_PADDING + 18, y, 640);
+      if (item.sauceNames.length) {
+        this.drawTruncatedText(
+          context,
+          `Salsas: ${item.sauceNames.join(', ')}`,
+          SIDE_PADDING + 18,
+          y,
+          640,
+        );
         y += 28;
       }
       if (item.additionalNames.length) {
@@ -167,11 +172,7 @@ export class OrderSummaryImageService {
     context.fillStyle = '#111111';
     context.font = '700 22px Arial, sans-serif';
     context.fillText(`UNIDADES: ${data.totalUnits}`, SIDE_PADDING, initialY + 48);
-    context.fillText(
-      `SUBTOTAL${data.hasReferencePrices ? ' REFERENCIAL' : ''}`,
-      SIDE_PADDING,
-      initialY + 92,
-    );
+    context.fillText('SUBTOTAL', SIDE_PADDING, initialY + 92);
     context.textAlign = 'right';
     context.fillStyle = '#111111';
     context.font = '900 28px Arial, sans-serif';

@@ -30,8 +30,8 @@ describe('CartService', () => {
     const selection = {
       product: PRODUCT,
       quantity: 2,
-      sauceName: 'Llajua',
-      additionalNames: ['Porción de papas'],
+      sauceIds: [],
+      additionalIds: [],
       observations: '',
     };
 
@@ -48,8 +48,8 @@ describe('CartService', () => {
     service.addItem({
       product: PRODUCT,
       quantity: 2,
-      sauceName: null,
-      additionalNames: [],
+      sauceIds: [],
+      additionalIds: [],
       observations: '',
     });
     const itemId = service.items()[0]?.id;
@@ -66,12 +66,78 @@ describe('CartService', () => {
     service.addItem({
       product: PRODUCT,
       quantity: 1,
-      sauceName: null,
-      additionalNames: [],
+      sauceIds: [],
+      additionalIds: [],
       observations: '',
     });
 
     expect(service.subtotal()).toBeNull();
+  });
+
+  it('adds sauce and additional prices to each product unit', () => {
+    const service = TestBed.inject(CartService);
+    const pricedProduct: Product = {
+      ...PRODUCT,
+      price: { amount: 20, currency: 'BOB', isMock: false },
+      sauceOptions: [
+        {
+          id: 'bbq',
+          name: 'BBQ',
+          price: { amount: 2, currency: 'BOB', isMock: false },
+        },
+      ],
+      additionalOptions: [
+        {
+          id: 'extra-papas',
+          name: 'Porción adicional de papas',
+          price: { amount: 10, currency: 'BOB', isMock: false },
+        },
+        {
+          id: 'extra-arroz',
+          name: 'Porción adicional de arroz',
+          price: { amount: 5, currency: 'BOB', isMock: false },
+        },
+      ],
+    };
+
+    service.addItem({
+      product: pricedProduct,
+      quantity: 2,
+      sauceIds: ['bbq'],
+      additionalIds: ['extra-papas', 'extra-arroz'],
+      observations: '',
+    });
+
+    expect(service.items()[0]?.unitPrice?.amount).toBe(37);
+    expect(service.subtotal()).toBe(74);
+  });
+
+  it('does not charge the two sauces included with wings and fingers', () => {
+    const service = TestBed.inject(CartService);
+    const wings: Product = {
+      ...PRODUCT,
+      price: { amount: 22, currency: 'BOB', isMock: false },
+      sauceOptions: [
+        { id: 'bbq', name: 'BBQ', price: { amount: 2, currency: 'BOB', isMock: false } },
+        {
+          id: 'buffalo',
+          name: 'Búfalo',
+          price: { amount: 2, currency: 'BOB', isMock: false },
+        },
+      ],
+      sauceSelection: { minimum: 2, maximum: 2, included: 2 },
+    };
+
+    service.addItem({
+      product: wings,
+      quantity: 1,
+      sauceIds: ['bbq', 'buffalo'],
+      additionalIds: [],
+      observations: '',
+    });
+
+    expect(service.items()[0]?.unitPrice?.amount).toBe(22);
+    expect(service.subtotal()).toBe(22);
   });
 
   it('restores safely when localStorage contains invalid data', () => {
@@ -87,7 +153,7 @@ describe('CartService', () => {
     localStorage.setItem(
       'pollos-mision-cart',
       JSON.stringify({
-        version: 1,
+        version: 3,
         items: [
           {
             id: 'test-product::::::',
@@ -98,7 +164,9 @@ describe('CartService', () => {
             visualLabel: PRODUCT.visualLabel,
             quantity: 2,
             unitPrice: null,
-            sauceName: null,
+            sauceIds: [],
+            sauceNames: [],
+            additionalIds: [],
             additionalNames: [],
             observations: '',
           },
@@ -116,7 +184,7 @@ describe('CartService', () => {
     localStorage.setItem(
       'pollos-mision-cart',
       JSON.stringify({
-        version: 1,
+        version: 3,
         items: [
           {
             id: 'broaster-clasico::::::',
@@ -127,7 +195,9 @@ describe('CartService', () => {
             visualLabel: 'XX',
             quantity: 2,
             unitPrice: null,
-            sauceName: null,
+            sauceIds: [],
+            sauceNames: [],
+            additionalIds: [],
             additionalNames: [],
             observations: '',
           },

@@ -1,5 +1,15 @@
 import { Product } from '../models/product.model';
 
+const PREMIUM_SAUCES = [
+  { id: 'bbq', name: 'BBQ', price: { amount: 2, currency: 'BOB', isMock: false } },
+  { id: 'buffalo', name: 'Búfalo', price: { amount: 2, currency: 'BOB', isMock: false } },
+  {
+    id: 'honey-mustard',
+    name: 'Miel mostaza',
+    price: { amount: 2, currency: 'BOB', isMock: false },
+  },
+] as const;
+
 export const PRODUCT_MOCK: readonly Product[] = [
   {
     id: 'promo-martes-mision',
@@ -94,14 +104,20 @@ export const PRODUCT_MOCK: readonly Product[] = [
     featured: true,
     availability: 'pending-confirmation',
     price: { amount: 20, currency: 'BOB', isMock: true },
-    sauceOptions: [
-      { id: 'ketchup', name: 'Kétchup' },
-      { id: 'mayonesa', name: 'Mayonesa' },
-      { id: 'llajua', name: 'Llajua' },
-    ],
+    sauceOptions: PREMIUM_SAUCES,
+    sauceSelection: { minimum: 0, maximum: 3, included: 0 },
+    includedCondiments: ['Kétchup', 'Mayonesa', 'Llajua'],
     additionalOptions: [
-      { id: 'extra-papas', name: 'Porción adicional de papas' },
-      { id: 'extra-arroz', name: 'Porción adicional de arroz' },
+      {
+        id: 'extra-papas',
+        name: 'Porción adicional de papas',
+        price: { amount: 10, currency: 'BOB', isMock: false },
+      },
+      {
+        id: 'extra-arroz',
+        name: 'Porción adicional de arroz',
+        price: { amount: 5, currency: 'BOB', isMock: false },
+      },
     ],
   },
   {
@@ -116,12 +132,16 @@ export const PRODUCT_MOCK: readonly Product[] = [
     featured: false,
     availability: 'pending-confirmation',
     price: { amount: 22, currency: 'BOB', isMock: true },
-    sauceOptions: [
-      { id: 'ketchup', name: 'Kétchup' },
-      { id: 'mayonesa', name: 'Mayonesa' },
-      { id: 'llajua', name: 'Llajua' },
+    sauceOptions: PREMIUM_SAUCES,
+    sauceSelection: { minimum: 0, maximum: 3, included: 0 },
+    includedCondiments: ['Kétchup', 'Mayonesa', 'Llajua'],
+    additionalOptions: [
+      {
+        id: 'extra-papas',
+        name: 'Porción adicional de papas',
+        price: { amount: 10, currency: 'BOB', isMock: false },
+      },
     ],
-    additionalOptions: [{ id: 'extra-papas', name: 'Porción adicional de papas' }],
   },
   {
     id: 'alitas-fingers',
@@ -135,12 +155,15 @@ export const PRODUCT_MOCK: readonly Product[] = [
     featured: true,
     availability: 'pending-confirmation',
     price: { amount: 22, currency: 'BOB', isMock: true },
-    sauceOptions: [
-      { id: 'ketchup', name: 'Kétchup' },
-      { id: 'mayonesa', name: 'Mayonesa' },
-      { id: 'llajua', name: 'Llajua' },
+    sauceOptions: PREMIUM_SAUCES,
+    sauceSelection: { minimum: 2, maximum: 2, included: 2 },
+    additionalOptions: [
+      {
+        id: 'extra-papas',
+        name: 'Porción adicional de papas',
+        price: { amount: 10, currency: 'BOB', isMock: false },
+      },
     ],
-    additionalOptions: [{ id: 'extra-papas', name: 'Porción adicional de papas' }],
   },
   {
     id: 'salchipapas-clasicas',
@@ -154,11 +177,16 @@ export const PRODUCT_MOCK: readonly Product[] = [
     featured: true,
     availability: 'pending-confirmation',
     price: { amount: 17, currency: 'BOB', isMock: true },
-    sauceOptions: [
-      { id: 'ketchup', name: 'Kétchup' },
-      { id: 'mayonesa', name: 'Mayonesa' },
+    sauceOptions: PREMIUM_SAUCES,
+    sauceSelection: { minimum: 0, maximum: 3, included: 0 },
+    includedCondiments: ['Kétchup', 'Mayonesa', 'Llajua'],
+    additionalOptions: [
+      {
+        id: 'extra-papas',
+        name: 'Porción adicional de papas',
+        price: { amount: 10, currency: 'BOB', isMock: false },
+      },
     ],
-    additionalOptions: [{ id: 'extra-papas', name: 'Porción adicional de papas' }],
   },
   {
     id: 'cono-papas',
@@ -166,12 +194,14 @@ export const PRODUCT_MOCK: readonly Product[] = [
     categorySlug: 'conos-papas',
     name: 'Cono de Papas',
     description: 'Papas crocantes en una presentación práctica para disfrutar.',
-    imageUrl: null,
-    imageAlt: 'Imagen pendiente para cono de papas',
+    imageUrl: '/images/categories/conos-papas-v2.webp',
+    imageAlt: 'Cono con papas fritas crocantes',
     visualLabel: 'CP',
     featured: false,
     availability: 'pending-confirmation',
     price: { amount: 10, currency: 'BOB', isMock: true },
+    sauceOptions: PREMIUM_SAUCES,
+    sauceSelection: { minimum: 1, maximum: 1, included: 1 },
   },
   {
     id: 'extra-papas',
@@ -179,12 +209,25 @@ export const PRODUCT_MOCK: readonly Product[] = [
     categorySlug: 'extras',
     name: 'Porción de Papas',
     description: 'Una porción adicional para completar tu pedido.',
-    imageUrl: null,
-    imageAlt: 'Imagen pendiente para porción de papas',
-    visualLabel: 'EX',
+    imageUrl: '/images/categories/extras-v2.webp',
+    imageAlt: 'Porción adicional de papas fritas',
+    visualLabel: 'PP',
     featured: false,
     availability: 'pending-confirmation',
     price: { amount: 10, currency: 'BOB', isMock: true },
+  },
+  {
+    id: 'extra-arroz',
+    slug: 'extra-arroz',
+    categorySlug: 'extras',
+    name: 'Porción de Arroz',
+    description: 'Una porción de arroz para complementar tu pedido.',
+    imageUrl: '/images/categories/extras-v2.webp',
+    imageAlt: 'Porción adicional de arroz blanco',
+    visualLabel: 'PA',
+    featured: false,
+    availability: 'pending-confirmation',
+    price: { amount: 5, currency: 'BOB', isMock: true },
   },
   {
     id: 'gaseosa',

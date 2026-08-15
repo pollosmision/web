@@ -69,11 +69,6 @@
             @if (currentProduct.price; as price) {
               <p class="text-2xl font-black text-pm-red">
                 {{ price.currency }} {{ price.amount.toFixed(2) }}
-                @if (price.isMock) {
-                  <span class="ml-2 text-sm font-semibold text-pm-foreground-muted">
-                    Precio referencial
-                  </span>
-                }
               </p>
             } @else {
               <p class="font-bold text-pm-foreground-muted">
@@ -114,11 +109,25 @@
             </div>
           </div>
 
+          @if (currentProduct.includedCondiments?.length) {
+            <div class="mt-7 rounded-pm-md border border-pm-border bg-pm-background p-4">
+              <p class="font-black text-pm-foreground">Acompañamientos incluidos</p>
+              <p class="mt-1 text-sm text-pm-foreground-muted">
+                {{ currentProduct.includedCondiments.join(', ') }} · Sin costo adicional
+              </p>
+            </div>
+          }
+
           @if (currentProduct.sauceOptions?.length) {
             <fieldset class="mt-7">
               <legend class="font-black">
-                Elige una salsa
-                <span class="font-normal text-pm-foreground-muted">(opcional y referencial)</span>
+                @if ((currentProduct.sauceSelection?.minimum ?? 0) > 0) {
+                  Elige {{ currentProduct.sauceSelection?.minimum }} salsas
+                  <span class="font-normal text-pm-foreground-muted">(incluidas)</span>
+                } @else {
+                  Salsas especiales
+                  <span class="font-normal text-pm-foreground-muted">(opcionales)</span>
+                }
               </legend>
               <div class="mt-3 flex flex-wrap gap-2">
                 @for (sauce of currentProduct.sauceOptions; track sauce.id) {
@@ -126,26 +135,34 @@
                     class="cursor-pointer rounded-full border border-pm-border px-4 py-2 text-sm font-bold has-checked:border-pm-orange has-checked:bg-pm-soft-orange has-focus-visible:outline-3 has-focus-visible:outline-offset-2 has-focus-visible:outline-pm-red"
                   >
                     <input
-                      type="radio"
-                      name="sauce"
+                      type="checkbox"
                       class="sr-only"
                       [value]="sauce.id"
-                      [checked]="selectedSauce() === sauce.id"
-                      (change)="selectSauce(sauce.id)"
+                      [checked]="selectedSauces().has(sauce.id)"
+                      [disabled]="
+                        !selectedSauces().has(sauce.id) &&
+                        selectedSauces().size >= (currentProduct.sauceSelection?.maximum ?? 1)
+                      "
+                      (change)="toggleSauce(sauce.id)"
                     />
                     {{ sauce.name }}
+                    @if ((currentProduct.sauceSelection?.included ?? 0) === 0) {
+                      · +{{ sauce.price.currency }} {{ sauce.price.amount.toFixed(2) }}
+                    } @else {
+                      · Incluida
+                    }
                   </label>
                 }
               </div>
+              @if (sauceError(); as error) {
+                <p class="mt-3 text-sm font-semibold text-pm-red" role="alert">{{ error }}</p>
+              }
             </fieldset>
           }
 
           @if (currentProduct.additionalOptions?.length) {
             <fieldset class="mt-7">
-              <legend class="font-black">
-                Adicionales
-                <span class="font-normal text-pm-foreground-muted">(precio por confirmar)</span>
-              </legend>
+              <legend class="font-black">Adicionales</legend>
               <div class="mt-3 grid gap-2">
                 @for (additional of currentProduct.additionalOptions; track additional.id) {
                   <label
@@ -157,7 +174,10 @@
                       [checked]="selectedAdditionals().has(additional.id)"
                       (change)="toggleAdditional(additional.id)"
                     />
-                    <span class="font-semibold">{{ additional.name }}</span>
+                    <span class="font-semibold">
+                      {{ additional.name }} · +{{ additional.price.currency }}
+                      {{ additional.price.amount.toFixed(2) }}
+                    </span>
                   </label>
                 }
               </div>
@@ -179,6 +199,13 @@
               {{ observations().length }} / {{ maxObservationLength }}
             </p>
           </div>
+
+          @if (selectionTotal(); as total) {
+            <div class="mt-7 flex items-center justify-between rounded-pm-md bg-pm-soft-orange p-4">
+              <span class="font-bold text-pm-brown">Total de esta selección</span>
+              <strong class="text-xl text-pm-red">BOB {{ total.toFixed(2) }}</strong>
+            </div>
+          }
 
           <button
             type="button"

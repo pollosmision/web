@@ -9,6 +9,13 @@ export interface ProductPrice {
 export interface ProductOption {
   readonly id: string;
   readonly name: string;
+  readonly price: ProductPrice;
+}
+
+export interface SauceSelectionRule {
+  readonly minimum: number;
+  readonly maximum: number;
+  readonly included: number;
 }
 
 export interface Product {
@@ -24,5 +31,7 @@ export interface Product {
   readonly availability: ProductAvailability;
   readonly price: ProductPrice | null;
   readonly sauceOptions?: readonly ProductOption[];
+  readonly sauceSelection?: SauceSelectionRule;
+  readonly includedCondiments?: readonly string[];
   readonly additionalOptions?: readonly ProductOption[];
 }
