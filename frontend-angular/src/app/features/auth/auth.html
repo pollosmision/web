@@ -1,0 +1,303 @@
+<main class="pm-starfield bg-pm-background py-10 sm:py-14 lg:py-16">
+  <div
+    class="mx-auto grid w-full max-w-6xl overflow-hidden rounded-pm-xl border border-pm-border bg-pm-surface shadow-pm-md lg:grid-cols-[0.85fr_1.15fr]"
+  >
+    <aside
+      class="relative hidden overflow-hidden bg-pm-dark p-10 text-white lg:flex lg:flex-col lg:justify-between"
+    >
+      <div class="absolute -right-20 -top-20 size-64 rounded-full border border-pm-yellow/20"></div>
+      <div class="absolute -bottom-16 -left-16 size-52 rounded-full bg-pm-red/15"></div>
+
+      <div class="relative">
+        <p class="text-sm font-black uppercase tracking-[0.2em] text-pm-yellow">Área de clientes</p>
+        <h2 class="mt-4 text-4xl font-black leading-tight">Tu próxima misión comienza aquí.</h2>
+        <p class="mt-4 max-w-sm leading-relaxed text-white/65">
+          Estamos preparando una experiencia más rápida para gestionar tus datos y futuros pedidos.
+        </p>
+      </div>
+
+      <img
+        src="/images/brand/mascota-pollos-mision.png"
+        width="615"
+        height="901"
+        alt=""
+        class="relative mx-auto mt-8 h-64 w-auto object-contain drop-shadow-xl"
+      />
+    </aside>
+
+    <section class="p-6 sm:p-10 lg:p-12" [attr.aria-labelledby]="mode + '-title'">
+      <div class="mx-auto max-w-xl">
+        <p class="text-sm font-black uppercase tracking-[0.2em] text-pm-red">Pollos Misión</p>
+        <h1
+          [id]="mode + '-title'"
+          class="mt-3 text-3xl font-black tracking-tight text-pm-foreground sm:text-4xl"
+        >
+          {{ title }}
+        </h1>
+        <p class="mt-3 leading-relaxed text-pm-foreground-muted">{{ introduction }}</p>
+
+        <div
+          class="mt-5 rounded-pm-md border border-pm-yellow/40 bg-pm-yellow/10 px-4 py-3 text-sm text-pm-foreground-muted"
+          role="note"
+        >
+          Esta es una vista previa del frontend. Todavía no crea cuentas ni inicia sesiones reales.
+        </div>
+
+        <form class="mt-7 space-y-5" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+          @if (mode === 'register') {
+            <div>
+              <label for="auth-name" class="block text-sm font-bold text-pm-foreground">
+                Nombre completo
+              </label>
+              <input
+                id="auth-name"
+                type="text"
+                formControlName="name"
+                autocomplete="name"
+                class="mt-2 min-h-12 w-full rounded-pm-md border border-pm-border bg-pm-background px-4 text-pm-foreground outline-none transition focus:border-pm-red focus:ring-2 focus:ring-pm-red/20"
+                [attr.aria-invalid]="form.controls.name.invalid && form.controls.name.touched"
+              />
+              @if (hasError('name', 'required') || hasError('name', 'minlength')) {
+                <p class="mt-1.5 text-sm font-semibold text-pm-red">
+                  Ingresa al menos 2 caracteres.
+                </p>
+              }
+            </div>
+          }
+
+          <div>
+            <label for="auth-email" class="block text-sm font-bold text-pm-foreground">
+              Correo electrónico
+            </label>
+            <input
+              id="auth-email"
+              type="email"
+              formControlName="email"
+              autocomplete="email"
+              inputmode="email"
+              class="mt-2 min-h-12 w-full rounded-pm-md border border-pm-border bg-pm-background px-4 text-pm-foreground outline-none transition focus:border-pm-red focus:ring-2 focus:ring-pm-red/20"
+              [attr.aria-invalid]="form.controls.email.invalid && form.controls.email.touched"
+            />
+            @if (hasError('email', 'required')) {
+              <p class="mt-1.5 text-sm font-semibold text-pm-red">El correo es obligatorio.</p>
+            } @else if (hasError('email', 'email')) {
+              <p class="mt-1.5 text-sm font-semibold text-pm-red">Ingresa un correo válido.</p>
+            }
+          </div>
+
+          @if (mode === 'register') {
+            <div>
+              <label for="auth-phone" class="block text-sm font-bold text-pm-foreground">
+                Teléfono
+              </label>
+              <input
+                id="auth-phone"
+                type="tel"
+                formControlName="phone"
+                autocomplete="tel"
+                inputmode="tel"
+                placeholder="Ej. 77632194"
+                class="mt-2 min-h-12 w-full rounded-pm-md border border-pm-border bg-pm-background px-4 text-pm-foreground outline-none transition placeholder:text-pm-foreground-muted/60 focus:border-pm-red focus:ring-2 focus:ring-pm-red/20"
+                [attr.aria-invalid]="form.controls.phone.invalid && form.controls.phone.touched"
+              />
+              @if (form.controls.phone.invalid && form.controls.phone.touched) {
+                <p class="mt-1.5 text-sm font-semibold text-pm-red">Ingresa un teléfono válido.</p>
+              }
+            </div>
+          }
+
+          @if (mode !== 'recovery') {
+            <div>
+              <label for="auth-password" class="block text-sm font-bold text-pm-foreground">
+                Contraseña
+              </label>
+              <div class="relative mt-2">
+                <input
+                  id="auth-password"
+                  [type]="passwordVisible() ? 'text' : 'password'"
+                  formControlName="password"
+                  [autocomplete]="mode === 'register' ? 'new-password' : 'current-password'"
+                  class="min-h-12 w-full rounded-pm-md border border-pm-border bg-pm-background px-4 pr-14 text-pm-foreground outline-none transition focus:border-pm-red focus:ring-2 focus:ring-pm-red/20"
+                  [attr.aria-invalid]="
+                    form.controls.password.invalid && form.controls.password.touched
+                  "
+                />
+                <button
+                  type="button"
+                  class="absolute inset-y-0 right-2 grid w-10 place-items-center rounded-full text-pm-foreground-muted hover:text-pm-red focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pm-red/40"
+                  [attr.aria-label]="
+                    passwordVisible() ? 'Ocultar contraseña' : 'Mostrar contraseña'
+                  "
+                  (click)="togglePassword()"
+                >
+                  <svg
+                    class="size-5"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    aria-hidden="true"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M2.1 12S5.7 5 12 5s9.9 7 9.9 7-3.6 7-9.9 7-9.9-7-9.9-7Z"
+                    />
+                    <circle cx="12" cy="12" r="3" />
+                    @if (passwordVisible()) {
+                      <path stroke-linecap="round" d="m4 4 16 16" />
+                    }
+                  </svg>
+                </button>
+              </div>
+              @if (form.controls.password.invalid && form.controls.password.touched) {
+                <p class="mt-1.5 text-sm font-semibold text-pm-red">
+                  La contraseña debe tener al menos 8 caracteres.
+                </p>
+              }
+            </div>
+          }
+
+          @if (mode === 'register') {
+            <div>
+              <label for="auth-confirm-password" class="block text-sm font-bold text-pm-foreground">
+                Confirmar contraseña
+              </label>
+              <div class="relative mt-2">
+                <input
+                  id="auth-confirm-password"
+                  [type]="confirmationVisible() ? 'text' : 'password'"
+                  formControlName="confirmPassword"
+                  autocomplete="new-password"
+                  class="min-h-12 w-full rounded-pm-md border border-pm-border bg-pm-background px-4 pr-14 text-pm-foreground outline-none transition focus:border-pm-red focus:ring-2 focus:ring-pm-red/20"
+                  [attr.aria-invalid]="
+                    (form.controls.confirmPassword.touched && form.hasError('passwordsMismatch')) ||
+                    (form.controls.confirmPassword.invalid && form.controls.confirmPassword.touched)
+                  "
+                />
+                <button
+                  type="button"
+                  class="absolute inset-y-0 right-2 grid w-10 place-items-center rounded-full text-pm-foreground-muted hover:text-pm-red focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pm-red/40"
+                  [attr.aria-label]="
+                    confirmationVisible() ? 'Ocultar confirmación' : 'Mostrar confirmación'
+                  "
+                  (click)="toggleConfirmation()"
+                >
+                  <svg
+                    class="size-5"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    aria-hidden="true"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M2.1 12S5.7 5 12 5s9.9 7 9.9 7-3.6 7-9.9 7-9.9-7-9.9-7Z"
+                    />
+                    <circle cx="12" cy="12" r="3" />
+                    @if (confirmationVisible()) {
+                      <path stroke-linecap="round" d="m4 4 16 16" />
+                    }
+                  </svg>
+                </button>
+              </div>
+              @if (
+                form.controls.confirmPassword.touched &&
+                (form.controls.confirmPassword.hasError('required') ||
+                  form.hasError('passwordsMismatch'))
+              ) {
+                <p class="mt-1.5 text-sm font-semibold text-pm-red">
+                  Las contraseñas deben coincidir.
+                </p>
+              }
+            </div>
+          }
+
+          @if (mode === 'login') {
+            <div class="flex flex-wrap items-center justify-between gap-3 text-sm">
+              <label class="inline-flex items-center gap-2 text-pm-foreground-muted">
+                <input type="checkbox" formControlName="remember" class="size-4 accent-pm-red" />
+                Recordarme
+              </label>
+              <a routerLink="/recuperar-acceso" class="font-bold text-pm-red hover:text-pm-orange">
+                Olvidé mi contraseña
+              </a>
+            </div>
+          }
+
+          @if (mode === 'register') {
+            <div>
+              <label class="flex items-start gap-2 text-sm text-pm-foreground-muted">
+                <input
+                  type="checkbox"
+                  formControlName="acceptTerms"
+                  class="mt-0.5 size-4 shrink-0 accent-pm-red"
+                />
+                <span>
+                  Acepto los <a routerLink="/terminos" class="font-bold text-pm-red">términos</a> y
+                  la <a routerLink="/privacidad" class="font-bold text-pm-red">privacidad</a>.
+                </span>
+              </label>
+              @if (form.controls.acceptTerms.invalid && form.controls.acceptTerms.touched) {
+                <p class="mt-1.5 text-sm font-semibold text-pm-red">
+                  Debes aceptar los términos para continuar.
+                </p>
+              }
+            </div>
+          }
+
+          <button
+            type="submit"
+            class="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-pm-primary px-6 py-3 font-black text-white shadow-pm-sm transition hover:-translate-y-0.5 hover:bg-pm-red focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pm-red focus-visible:ring-offset-2"
+          >
+            @switch (mode) {
+              @case ('register') {
+                Crear cuenta
+              }
+              @case ('recovery') {
+                Enviar instrucciones
+              }
+              @default {
+                Iniciar sesión
+              }
+            }
+          </button>
+
+          @if (submittedMessage(); as message) {
+            <p
+              class="rounded-pm-md border border-pm-teal/30 bg-pm-teal/10 px-4 py-3 text-sm font-semibold text-pm-foreground"
+              role="status"
+            >
+              {{ message }}
+            </p>
+          }
+        </form>
+
+        <p class="mt-7 text-center text-sm text-pm-foreground-muted">
+          @switch (mode) {
+            @case ('register') {
+              ¿Ya tienes una cuenta?
+              <a routerLink="/ingresar" class="font-black text-pm-red hover:text-pm-orange"
+                >Ingresa</a
+              >
+            }
+            @case ('recovery') {
+              ¿Recordaste tu contraseña?
+              <a routerLink="/ingresar" class="font-black text-pm-red hover:text-pm-orange"
+                >Volver a ingresar</a
+              >
+            }
+            @default {
+              ¿Aún no tienes una cuenta?
+              <a routerLink="/registro" class="font-black text-pm-red hover:text-pm-orange"
+                >Regístrate</a
+              >
+            }
+          }
+        </p>
+      </div>
+    </section>
+  </div>
+</main>

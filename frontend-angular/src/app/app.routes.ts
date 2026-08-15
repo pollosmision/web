@@ -91,6 +91,31 @@ export const routes: Routes = [
       },
       ...[
         {
+          path: 'ingresar',
+          title: 'Ingresar',
+          authMode: 'login',
+          description: 'Ingresa a tu cuenta de cliente de Pollos Misión.',
+        },
+        {
+          path: 'registro',
+          title: 'Crear cuenta',
+          authMode: 'register',
+          description: 'Crea tu cuenta de cliente de Pollos Misión.',
+        },
+        {
+          path: 'recuperar-acceso',
+          title: 'Recuperar acceso',
+          authMode: 'recovery',
+          description: 'Recupera el acceso a tu cuenta de Pollos Misión.',
+        },
+      ].map(({ path, title, authMode, description }) => ({
+        path,
+        title: `${title} | Pollos Misión`,
+        data: { authMode, description, robots: 'noindex, nofollow' },
+        loadComponent: () => import('./features/auth/auth').then(({ Auth }) => Auth),
+      })),
+      ...[
+        {
           path: 'terminos',
           title: 'Términos y condiciones',
           description: 'Consulta los términos y condiciones de uso del sitio de Pollos Misión.',
