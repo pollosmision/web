@@ -81,17 +81,23 @@ Decisiones visuales consolidadas a partir de las referencias oficiales:
 - Se pueden usar órbitas, estrellas, planetas y líneas espaciales de forma discreta.
 - La temática gastronómica principal es pollo broaster/pollo frito, papas fritas y comida rápida.
 
-Preparar assets:
+Assets oficiales disponibles:
 
 ```text
-src/assets/brand/logo-pollos-mision.svg
-src/assets/brand/logo-pollos-mision-horizontal.svg
-src/assets/brand/isotipo-pollos-mision.svg
+public/images/brand/logo-pollos-mision.png
+public/images/brand/logo-pollos-mision-transparent-v2.png
+public/images/brand/mascota-pollos-mision.png
+public/images/brand/isotipo-pollos-mision.png
 ```
 
-No redibujar, reinterpretar ni generar automáticamente el logo. Las referencias JPG adjuntas no
-son un asset limpio de producción. Hasta recibir PNG/SVG transparente oficial, usar placeholders
-claramente identificados.
+No redibujar, reinterpretar ni generar automáticamente el logo. Conservar proporciones y canal
+alfa de los PNG oficiales. Si posteriormente se entregan originales vectoriales, priorizar SVG para
+logo e isotipo sin eliminar estos archivos fuente hasta validar el reemplazo.
+
+`logo-pollos-mision-transparent-v2.png` es una variante experimental con fondo transparente para
+uso temporal en el footer. No sustituye al archivo oficial porque el proceso de extracción suavizó
+algunos detalles; conservar ambos hasta aprobar visualmente la variante o recibir el original
+transparente.
 
 ## Tipografía
 

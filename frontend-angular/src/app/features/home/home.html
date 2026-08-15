@@ -1,5 +1,5 @@
 <main>
-  <section class="relative overflow-hidden bg-pm-background py-10 sm:py-14 lg:py-20">
+  <section class="pm-starfield relative overflow-hidden bg-pm-background py-10 sm:py-14 lg:py-20">
     <div
       class="pointer-events-none absolute -left-24 top-12 size-64 rounded-full border border-pm-orange/20"
       aria-hidden="true"
@@ -8,6 +8,15 @@
       class="pointer-events-none absolute left-24 top-32 size-2 rounded-full bg-pm-red/40"
       aria-hidden="true"
     ></div>
+    <div
+      class="pointer-events-none absolute right-[8%] top-24 hidden size-16 place-items-center rounded-full border border-pm-teal/25 bg-pm-teal/5 lg:grid"
+      aria-hidden="true"
+    >
+      <span class="size-6 rounded-full bg-pm-teal/20"></span>
+      <span
+        class="absolute h-8 w-20 -rotate-12 rounded-[50%] border border-dashed border-pm-teal/35"
+      ></span>
+    </div>
 
     <pm-page-container>
       <div class="grid items-center gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
@@ -47,9 +56,19 @@
           <p class="mt-6 text-sm font-semibold text-pm-foreground-muted">
             {{ business.location.city }}, {{ business.location.country }}
           </p>
+          <p
+            class="mt-3 inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.16em] text-pm-teal"
+          >
+            <span class="size-2 rounded-full bg-pm-teal" aria-hidden="true"></span>
+            Tripulación lista para despegar
+          </p>
         </div>
 
         <div class="relative mx-auto w-full max-w-3xl">
+          <div
+            class="pm-moon pointer-events-none absolute -right-3 -top-5 z-20 size-16 sm:-right-5 sm:-top-8 sm:size-24"
+            aria-hidden="true"
+          ></div>
           <div
             class="absolute -inset-3 rotate-2 rounded-[2rem] bg-pm-orange/15 sm:-inset-5"
             aria-hidden="true"
@@ -72,6 +91,14 @@
           >
             Crocante de verdad
           </div>
+          <img
+            src="/images/brand/mascota-pollos-mision.png"
+            width="615"
+            height="901"
+            alt=""
+            class="pointer-events-none absolute -bottom-8 right-0 z-20 h-28 w-auto drop-shadow-xl sm:-right-5 sm:h-40 lg:-right-10 lg:h-48"
+            fetchpriority="high"
+          />
         </div>
       </div>
     </pm-page-container>
@@ -90,6 +117,33 @@
           Ocho formas de disfrutar el sabor de Pollos Misión.
         </p>
       </div>
+
+      <ol
+        class="mx-auto mt-8 grid max-w-3xl gap-3 text-left sm:grid-cols-3"
+        aria-label="Tu recorrido en Pollos Misión"
+      >
+        <li class="flex items-center gap-3 rounded-full bg-pm-background px-4 py-3 shadow-pm-sm">
+          <span
+            class="grid size-9 shrink-0 place-items-center rounded-full bg-pm-primary text-xs font-black text-white"
+            >01</span
+          >
+          <span class="text-sm font-bold text-pm-foreground">Elige tu favorito</span>
+        </li>
+        <li class="flex items-center gap-3 rounded-full bg-pm-background px-4 py-3 shadow-pm-sm">
+          <span
+            class="grid size-9 shrink-0 place-items-center rounded-full bg-pm-teal text-xs font-black text-white"
+            >02</span
+          >
+          <span class="text-sm font-bold text-pm-foreground">Prepara el despegue</span>
+        </li>
+        <li class="flex items-center gap-3 rounded-full bg-pm-background px-4 py-3 shadow-pm-sm">
+          <span
+            class="grid size-9 shrink-0 place-items-center rounded-full bg-pm-orange text-xs font-black text-white"
+            >03</span
+          >
+          <span class="text-sm font-bold text-pm-foreground">Misión cumplida</span>
+        </li>
+      </ol>
 
       <div class="mt-10 grid grid-cols-2 gap-3 sm:gap-5 md:grid-cols-3 lg:grid-cols-4">
         @for (category of categories; track category.id) {
@@ -132,9 +186,16 @@
     </pm-page-container>
   </section>
 
-  <section class="bg-pm-background py-16 sm:py-20 lg:py-24" aria-labelledby="featured-title">
+  <section
+    class="relative overflow-hidden bg-pm-background py-16 sm:py-20 lg:py-24"
+    aria-labelledby="featured-title"
+  >
+    <div
+      class="pm-moon pointer-events-none absolute -right-16 top-20 size-48 opacity-30 sm:size-64"
+      aria-hidden="true"
+    ></div>
     <pm-page-container>
-      <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+      <div class="relative flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p class="text-sm font-extrabold uppercase tracking-[0.2em] text-pm-red">Recomendados</p>
           <h2 id="featured-title" class="mt-3 text-3xl font-black tracking-tight sm:text-4xl">
@@ -146,7 +207,7 @@
         >
       </div>
 
-      <div class="mt-10 grid gap-6 md:grid-cols-3">
+      <div class="relative mt-10 grid gap-6 md:grid-cols-3">
         @for (product of featuredProducts; track product.id) {
           <article
             class="group overflow-hidden rounded-pm-xl border border-pm-border bg-pm-surface shadow-pm-sm hover:-translate-y-1 hover:shadow-pm-md"
@@ -181,9 +242,13 @@
   </section>
 
   <section
-    class="relative overflow-hidden bg-pm-dark py-16 text-white sm:py-20 lg:py-24"
+    class="pm-starfield-dark relative overflow-hidden bg-pm-dark py-16 text-white sm:py-20 lg:py-24"
     aria-labelledby="promotions-title"
   >
+    <div
+      class="pm-crescent pointer-events-none absolute bottom-10 right-[8%] size-20 opacity-60 sm:size-28"
+      aria-hidden="true"
+    ></div>
     <div
       class="pointer-events-none absolute -right-24 -top-24 size-80 rounded-full border border-dashed border-pm-orange/40"
       aria-hidden="true"

@@ -160,6 +160,45 @@ textarea {
   color: var(--pm-yellow);
 }
 
+.pm-starfield {
+  background-image:
+    radial-gradient(circle at 12% 22%, rgb(204 0 0 / 16%) 0 2px, transparent 2.5px),
+    radial-gradient(circle at 82% 18%, rgb(0 102 102 / 14%) 0 1.5px, transparent 2px),
+    radial-gradient(circle at 92% 72%, rgb(255 204 0 / 24%) 0 2px, transparent 2.5px),
+    radial-gradient(circle at 38% 78%, rgb(153 0 0 / 10%) 0 1.5px, transparent 2px);
+}
+
+.pm-starfield-dark {
+  background-image:
+    radial-gradient(circle at 8% 24%, rgb(255 204 0 / 65%) 0 1.5px, transparent 2px),
+    radial-gradient(circle at 22% 72%, rgb(255 255 255 / 32%) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 54% 18%, rgb(0 102 102 / 75%) 0 2px, transparent 2.5px),
+    radial-gradient(circle at 78% 66%, rgb(255 204 0 / 45%) 0 1.5px, transparent 2px),
+    radial-gradient(circle at 94% 28%, rgb(255 255 255 / 28%) 0 1px, transparent 1.5px);
+}
+
+.pm-moon {
+  border: 2px solid rgb(153 0 0 / 16%);
+  border-radius: 9999px;
+  background:
+    radial-gradient(circle at 30% 28%, rgb(153 0 0 / 12%) 0 7%, transparent 8%),
+    radial-gradient(circle at 68% 35%, rgb(153 0 0 / 10%) 0 5%, transparent 6%),
+    radial-gradient(circle at 58% 72%, rgb(153 0 0 / 12%) 0 9%, transparent 10%),
+    radial-gradient(circle at 28% 68%, rgb(255 255 255 / 42%) 0 6%, transparent 7%), var(--pm-cream);
+  box-shadow:
+    inset -0.75rem -0.5rem 1.25rem rgb(153 0 0 / 10%),
+    0 0 2rem rgb(255 204 0 / 22%);
+}
+
+.pm-crescent {
+  border-radius: 9999px;
+  background: var(--pm-yellow);
+  box-shadow:
+    inset -1.25rem 0 0 0 var(--pm-dark),
+    0 0 1.75rem rgb(255 204 0 / 20%);
+  transform: rotate(-18deg);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
