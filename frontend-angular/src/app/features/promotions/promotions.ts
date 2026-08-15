@@ -13,5 +13,5 @@ import { PageContainer } from '../../shared/components/page-container/page-conta
 })
 export class Promotions {
   protected readonly promotions = inject(PromotionService).getPromotions();
-  protected readonly instagramUrl = `https://www.instagram.com/${BUSINESS_CONFIG.socialHandles.instagram}`;
+  protected readonly whatsappUrl = `https://wa.me/${BUSINESS_CONFIG.phones[0].international}?text=${encodeURIComponent('¡Hola, Pollos Misión! Quiero consultar las promociones disponibles.')}`;
 }

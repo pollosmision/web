@@ -20,18 +20,28 @@
   <section class="py-16 sm:py-20 lg:py-24" aria-labelledby="promotions-list-title">
     <pm-page-container>
       <h2 id="promotions-list-title" class="sr-only">Próximas promociones</h2>
-      <div class="grid gap-6 lg:grid-cols-2">
+      <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
         @for (promotion of promotions; track promotion.id; let index = $index) {
           <article
-            class="relative overflow-hidden rounded-pm-xl p-8 text-white shadow-pm-md sm:p-10"
+            class="relative overflow-hidden rounded-pm-xl text-white shadow-pm-md"
             [class.bg-pm-red]="index === 0"
-            [class.bg-pm-teal]="index !== 0"
+            [class.bg-pm-teal]="index === 1"
+            [class.bg-pm-brown]="index === 2"
           >
             <div
               class="absolute -bottom-20 -right-16 size-56 rounded-full border border-dashed border-white/25"
               aria-hidden="true"
             ></div>
-            <div class="relative">
+            <img
+              [src]="promotion.imageUrl"
+              [alt]="promotion.imageAlt"
+              width="1254"
+              height="1254"
+              class="aspect-[4/3] w-full object-cover"
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="relative p-7 sm:p-8">
               <p class="text-xs font-black uppercase tracking-[0.2em] text-pm-soft-orange">
                 {{ promotion.eyebrow }}
               </p>
@@ -47,20 +57,20 @@
         aria-labelledby="promotion-notice-title"
       >
         <h2 id="promotion-notice-title" class="text-2xl font-black">
-          Aún no hay promociones publicadas
+          Promociones sujetas a confirmación
         </h2>
         <p class="mx-auto mt-3 max-w-2xl text-pm-foreground-muted">
-          No mostramos descuentos ni condiciones hasta que sean confirmados oficialmente. Sigue
-          nuestras redes para enterarte primero.
+          Consulta por WhatsApp el precio, la disponibilidad y las condiciones de cada promoción
+          antes de realizar tu pedido.
         </p>
         <div class="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
           <a
-            [href]="instagramUrl"
+            [href]="whatsappUrl"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Seguir a Pollos Misión en Instagram, abre en una pestaña nueva"
-            class="rounded-full bg-pm-promo px-6 py-3 font-black text-pm-dark hover:bg-pm-red hover:text-white"
-            >Seguir en Instagram</a
+            aria-label="Consultar promociones por WhatsApp, abre en una pestaña nueva"
+            class="rounded-full bg-pm-whatsapp px-6 py-3 font-black text-white hover:brightness-110"
+            >Consultar por WhatsApp</a
           >
           <a
             routerLink="/menu"

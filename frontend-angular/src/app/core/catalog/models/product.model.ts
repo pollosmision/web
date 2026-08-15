@@ -3,7 +3,7 @@ export type ProductAvailability = 'available' | 'unavailable' | 'pending-confirm
 export interface ProductPrice {
   readonly amount: number;
   readonly currency: 'BOB';
-  readonly isMock: true;
+  readonly isMock: boolean;
 }
 
 export interface ProductOption {

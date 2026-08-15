@@ -1,25 +1,26 @@
 import { Injectable } from '@angular/core';
 
-import { CATEGORY_MOCK } from '../data/category.mock';
-import { PRODUCT_MOCK } from '../data/product.mock';
 import { MenuCategory } from '../models/menu-category.model';
 import { Product } from '../models/product.model';
+import { CatalogStoreService } from './catalog-store.service';
 
 @Injectable({ providedIn: 'root' })
 export class CatalogService {
+  constructor(private readonly catalogStore: CatalogStoreService) {}
+
   getCategories(): readonly MenuCategory[] {
-    return CATEGORY_MOCK;
+    return this.catalogStore.snapshot().categories;
   }
 
   getProducts(): readonly Product[] {
-    return PRODUCT_MOCK;
+    return this.catalogStore.snapshot().products;
   }
 
   getFeaturedProducts(): readonly Product[] {
-    return PRODUCT_MOCK.filter((product) => product.featured);
+    return this.getProducts().filter((product) => product.featured);
   }
 
   getProductBySlug(slug: string): Product | undefined {
-    return PRODUCT_MOCK.find((product) => product.slug === slug);
+    return this.getProducts().find((product) => product.slug === slug);
   }
 }
