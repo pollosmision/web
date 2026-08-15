@@ -19,7 +19,7 @@ import { PageContainer } from '../../shared/components/page-container/page-conta
           <p class="mx-auto mt-5 max-w-xl text-pm-foreground-muted">{{ description }}</p>
           <a
             routerLink="/"
-            class="mt-8 inline-flex rounded-full bg-pm-orange px-5 py-3 font-bold text-white hover:bg-pm-red"
+            class="mt-8 inline-flex rounded-full bg-pm-primary px-5 py-3 font-bold text-white hover:bg-pm-red"
           >
             Volver al inicio
           </a>

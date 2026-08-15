@@ -19,63 +19,79 @@ La mascota/logo se basa en un **pollo astronauta**. La comida debe ser protagoni
 - Crocante / fast food
 - Identidad espacial sutil
 
-## Paleta consolidada de trabajo
+## Paleta oficial consolidada
 
 Centralizar siempre estos tokens. No dispersar HEX en componentes.
 
 ```css
 :root {
-  --pm-orange: #F58220;
-  --pm-red: #C62828;
-
-  --pm-brown: #5A351F;
-  --pm-dark: #211915;
-
-  --pm-cream: #FFF8ED;
-  --pm-soft-orange: #FFF0DC;
-
-  --pm-white: #FFFFFF;
-  --pm-gray-50: #FAFAFA;
-  --pm-gray-100: #F5F5F5;
-  --pm-gray-500: #737373;
-  --pm-gray-900: #171717;
-
-  --pm-success: #25D366;
+  --pm-primary: #990000;
+  --pm-red: #cc0000;
+  --pm-yellow: #ffcc00;
+  --pm-cream: #fff5cc;
+  --pm-promo: #ff6600;
+  --pm-teal: #006666;
+  --pm-dark: #1a1a1a;
+  --pm-gray-900: #333333;
+  --pm-gray-100: #f0f0f0;
+  --pm-white: #ffffff;
+  --pm-success: #25d366;
 }
 ```
 
 Uso:
-- Naranja: CTA principal, energía, `POLLOS`, destacados.
-- Rojo: promociones, acentos fuertes, `MISIÓN`, cresta del pollo.
-- Blanco: pollo astronauta, fondos limpios, contraste.
-- Naranja: pico del pollo.
-- Café/tierra: luna, Valle de la Luna, montañas y detalles secundarios.
-- Crema: fondos cálidos.
+
+- Rojo principal: marca, rótulos, encabezados importantes y CTA principales.
+- Rojo intenso: hover, estados activos y promociones.
+- Amarillo: segundo color principal, precios, destacados e iconos.
+- Crema: fondos cálidos ocasionales y tarjetas especiales.
+- Naranja: promociones y CTA especiales; no debe competir con rojo y amarillo.
+- Turquesa: acento espacial limitado y secciones especiales.
+- Negro y gris: fondos oscuros, texto base y subtítulos.
+- Blanco y gris claro: superficies limpias, fondos y contraste.
 - Verde: reservar para WhatsApp/éxito cuando corresponda.
 
-No saturar toda la web con rojo/naranja. Mantener abundante blanco/crema.
+En light mode priorizar blanco, gris claro y crema ocasional. En dark mode usar `#1A1A1A` y
+superficies ligeramente más claras. No saturar la web con rojo, amarillo, naranja o elementos
+espaciales; la comida continúa siendo protagonista.
+
+### Dirección web híbrida
+
+La interfaz web combina la paleta oficial con una atmósfera gastronómica cálida:
+
+- fondo general marfil muy claro derivado del crema oficial;
+- tarjetas y navbar principalmente blancos;
+- crema oficial en badges, selecciones y bloques especiales;
+- rojo principal en branding y CTA;
+- amarillo en detalles, iconos y destacados, evitando texto pequeño sobre fondos claros;
+- naranja y turquesa únicamente como apoyo promocional o espacial;
+- sombras cálidas y suaves, sin perder limpieza visual.
+
+Esta dirección conserva la identidad oficial sin trasladar literalmente la estética oscura de los
+carteles o menús impresos a toda la experiencia web.
 
 ## Logo e iconografía
 
-Decisiones visuales consolidadas:
-- Pollo astronauta.
-- Pollo principalmente blanco.
-- Pico naranja.
-- Cresta roja.
-- Texto `POLLOS` naranja.
-- Texto `MISIÓN` rojo.
-- Valle de la Luna / luna / montañas en café o tonos tierra.
+Decisiones visuales consolidadas a partir de las referencias oficiales:
+
+- Pollito amarillo con traje de astronauta.
+- Casco blanco con visor azul/turquesa.
+- Entorno de luna, cráteres o montañas en negro/gris.
+- Combinación dominante rojo, amarillo, negro y blanco.
 - Se pueden usar órbitas, estrellas, planetas y líneas espaciales de forma discreta.
 - La temática gastronómica principal es pollo broaster/pollo frito, papas fritas y comida rápida.
 
 Preparar assets:
+
 ```text
 src/assets/brand/logo-pollos-mision.svg
 src/assets/brand/logo-pollos-mision-horizontal.svg
 src/assets/brand/isotipo-pollos-mision.svg
 ```
 
-No inventar un logo definitivo por CSS si los archivos aún no existen; usar placeholders claramente identificados.
+No redibujar, reinterpretar ni generar automáticamente el logo. Las referencias JPG adjuntas no
+son un asset limpio de producción. Hasta recibir PNG/SVG transparente oficial, usar placeholders
+claramente identificados.
 
 ## Tipografía
 
@@ -86,6 +102,7 @@ Preferencia inicial: **Poppins** para títulos/UI. Evitar demasiadas familias ti
 Ciudad: La Paz, Bolivia.
 
 Teléfonos:
+
 - 77632194
 - 60514138
 
@@ -109,6 +126,7 @@ No inventar precios definitivos.
 ## Lenguaje de marca sugerido
 
 Usar con moderación:
+
 - “Tu misión es disfrutar”
 - “Los favoritos de la misión”
 - “Promociones en órbita”

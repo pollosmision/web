@@ -3,55 +3,69 @@
 :root {
   color-scheme: light;
 
-  --pm-orange: #f58220;
-  --pm-red: #c62828;
-  --pm-brown: #5a351f;
-  --pm-dark: #211915;
-  --pm-cream: #fff8ed;
-  --pm-soft-orange: #fff0dc;
+  --pm-primary: #990000;
+  --pm-red: #cc0000;
+  --pm-yellow: #ffcc00;
+  --pm-promo: #ff6600;
+  --pm-teal: #006666;
+  --pm-dark: #1a1a1a;
+  --pm-cream: #fff5cc;
   --pm-white: #ffffff;
-  --pm-gray-50: #fafafa;
-  --pm-gray-100: #f5f5f5;
-  --pm-gray-500: #737373;
-  --pm-gray-900: #171717;
+  --pm-gray-50: #f8f8f8;
+  --pm-gray-100: #f0f0f0;
+  --pm-gray-500: #666666;
+  --pm-gray-900: #333333;
   --pm-success: #25d366;
 
-  --pm-background: var(--pm-cream);
+  --pm-warm-background: #fffaf2;
+  --pm-warm-border: #eadfca;
+  --pm-warm-muted: #6b6059;
+
+  /* Aliases kept while existing components migrate to the official semantic palette. */
+  --pm-orange: var(--pm-yellow);
+  --pm-brown: var(--pm-gray-900);
+  --pm-soft-orange: var(--pm-cream);
+
+  --pm-background: var(--pm-warm-background);
   --pm-surface: var(--pm-white);
-  --pm-surface-muted: var(--pm-soft-orange);
-  --pm-foreground: var(--pm-dark);
-  --pm-foreground-muted: var(--pm-gray-500);
-  --pm-border: var(--pm-gray-100);
+  --pm-surface-muted: var(--pm-cream);
+  --pm-foreground: var(--pm-gray-900);
+  --pm-foreground-muted: var(--pm-warm-muted);
+  --pm-border: var(--pm-warm-border);
+  --pm-focus: var(--pm-primary);
 
   --pm-font-sans: Poppins, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --pm-radius-sm: 0.5rem;
   --pm-radius-md: 0.75rem;
   --pm-radius-lg: 1.25rem;
   --pm-radius-xl: 1.75rem;
-  --pm-shadow-sm: 0 1px 3px rgb(33 25 21 / 8%);
-  --pm-shadow-md: 0 12px 32px rgb(90 53 31 / 12%);
+  --pm-shadow-sm: 0 1px 3px rgb(90 53 31 / 10%);
+  --pm-shadow-md: 0 12px 32px rgb(90 53 31 / 14%);
   --pm-transition-fast: 150ms;
   --pm-transition-base: 250ms;
 }
 
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --pm-red: #ff8a80;
-  --pm-brown: #f0c7a5;
-  --pm-cream: #2a211c;
-  --pm-soft-orange: #3a2a20;
-  --pm-gray-500: #c7bdb7;
-  --pm-background: #211915;
-  --pm-surface: #2b221e;
-  --pm-surface-muted: #3a2a20;
+  --pm-background: var(--pm-dark);
+  --pm-surface: #242424;
+  --pm-surface-muted: #303030;
   --pm-foreground: var(--pm-white);
-  --pm-foreground-muted: #d8cec8;
-  --pm-border: #60483a;
+  --pm-foreground-muted: #d0d0d0;
+  --pm-border: #484848;
+  --pm-brown: var(--pm-gray-100);
+  --pm-soft-orange: #3b3520;
+  --pm-cream: #332f1f;
+  --pm-focus: var(--pm-yellow);
   --pm-shadow-sm: 0 1px 3px rgb(0 0 0 / 24%);
   --pm-shadow-md: 0 12px 32px rgb(0 0 0 / 32%);
 }
 
 @theme inline {
+  --color-pm-primary: var(--pm-primary);
+  --color-pm-yellow: var(--pm-yellow);
+  --color-pm-promo: var(--pm-promo);
+  --color-pm-teal: var(--pm-teal);
   --color-pm-orange: var(--pm-orange);
   --color-pm-red: var(--pm-red);
   --color-pm-brown: var(--pm-brown);
@@ -99,7 +113,7 @@ textarea {
 }
 
 :focus-visible {
-  outline: 3px solid var(--pm-red);
+  outline: 3px solid var(--pm-focus);
   outline-offset: 3px;
 }
 
@@ -117,27 +131,33 @@ textarea {
   opacity: 0.5;
 }
 
-/* Brand orange and WhatsApp green need dark foregrounds for accessible contrast. */
+/* Brand yellow and WhatsApp green need dark foregrounds for accessible contrast. */
 [class~='bg-pm-orange'][class~='text-white'],
 [class~='bg-pm-success'][class~='text-white'] {
   color: var(--pm-dark);
 }
 
-:root[data-theme='dark'] [class~='bg-pm-red'][class~='text-white'] {
-  color: var(--pm-dark);
-}
-
 :root[data-theme='dark'] [class~='bg-white'][class~='text-pm-red'] {
-  color: #c62828;
+  color: var(--pm-primary);
 }
 
 [class~='bg-pm-orange'][class~='text-white'][class~='hover:bg-pm-red']:hover {
   color: var(--pm-white);
 }
 
-:root[data-theme='dark']
-  [class~='bg-pm-orange'][class~='text-white'][class~='hover:bg-pm-red']:hover {
-  color: var(--pm-dark);
+:root[data-theme='dark'] [class~='text-pm-red'],
+:root[data-theme='dark'] [class~='hover:text-pm-red']:hover {
+  color: var(--pm-yellow);
+}
+
+:root[data-theme='light'] [class~='text-pm-orange'],
+:root[data-theme='light'] [class~='hover:text-pm-orange']:hover {
+  color: var(--pm-primary);
+}
+
+:root[data-theme='light'] [class~='bg-pm-dark'] [class~='text-pm-orange'],
+:root[data-theme='light'] footer [class~='text-pm-orange'] {
+  color: var(--pm-yellow);
 }
 
 @media (prefers-reduced-motion: reduce) {
