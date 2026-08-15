@@ -23,7 +23,7 @@ export class RuntimeConfigService {
 
   async load(): Promise<void> {
     try {
-      const response = await fetch('/config/app-config.json', { cache: 'no-store' });
+      const response = await fetch('config/app-config.json', { cache: 'no-store' });
       if (!response.ok) return;
 
       const candidate = (await response.json()) as Partial<RuntimeConfig>;

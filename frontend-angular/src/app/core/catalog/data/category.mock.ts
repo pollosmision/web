@@ -7,7 +7,7 @@ export const CATEGORY_MOCK: readonly MenuCategory[] = [
     name: 'Combos',
     description: 'Combinaciones especiales para completar tu misión.',
     visualLabel: 'CO',
-    imageUrl: '/images/categories/combos-v2.webp',
+    imageUrl: 'images/categories/combos-v2.webp',
   },
   {
     id: 'promociones',
@@ -15,7 +15,7 @@ export const CATEGORY_MOCK: readonly MenuCategory[] = [
     name: 'Promociones',
     description: 'Ofertas temporales con condiciones y vigencia especiales.',
     visualLabel: 'PR',
-    imageUrl: '/images/categories/promociones-v2.webp',
+    imageUrl: 'images/categories/promociones-v2.webp',
   },
   {
     id: 'pollo-broaster',
@@ -23,7 +23,7 @@ export const CATEGORY_MOCK: readonly MenuCategory[] = [
     name: 'Pollo Broaster',
     description: 'Pollo crocante acompañado de papas y arroz.',
     visualLabel: 'PB',
-    imageUrl: '/images/categories/pollo-broaster-v2.webp',
+    imageUrl: 'images/categories/pollo-broaster-v2.webp',
   },
   {
     id: 'pollo-canasta',
@@ -31,7 +31,7 @@ export const CATEGORY_MOCK: readonly MenuCategory[] = [
     name: 'Pollo a la Canasta',
     description: 'Pollo crocante servido con una generosa porción de papas.',
     visualLabel: 'PC',
-    imageUrl: '/images/categories/pollo-canasta-v2.webp',
+    imageUrl: 'images/categories/pollo-canasta-v2.webp',
   },
   {
     id: 'alitas-fingers',
@@ -39,7 +39,7 @@ export const CATEGORY_MOCK: readonly MenuCategory[] = [
     name: 'Alitas & Fingers',
     description: 'Opciones crocantes listas para disfrutar con salsas.',
     visualLabel: 'AF',
-    imageUrl: '/images/categories/alitas-fingers-v2.webp',
+    imageUrl: 'images/categories/alitas-fingers-v2.webp',
   },
   {
     id: 'salchipapas',
@@ -47,7 +47,7 @@ export const CATEGORY_MOCK: readonly MenuCategory[] = [
     name: 'Salchipapas',
     description: 'Clásicos favoritos con papas, salchicha, arroz o pollo.',
     visualLabel: 'SP',
-    imageUrl: '/images/categories/salchipapas-v2.webp',
+    imageUrl: 'images/categories/salchipapas-v2.webp',
   },
   {
     id: 'conos-papas',
@@ -55,15 +55,15 @@ export const CATEGORY_MOCK: readonly MenuCategory[] = [
     name: 'Conos de Papas',
     description: 'Papas para llevar en opciones simples o combinadas.',
     visualLabel: 'CP',
-    imageUrl: '/images/categories/conos-papas-v2.webp',
+    imageUrl: 'images/categories/conos-papas-v2.webp',
   },
   {
     id: 'extras',
     slug: 'extras',
     name: 'Extras',
-    description: 'Porciones adicionales de papas y arroz para completar tu pedido.',
+    description: 'Papas, arroz y salsas especiales para completar tu pedido.',
     visualLabel: 'EX',
-    imageUrl: '/images/categories/extras-v2.webp',
+    imageUrl: 'images/categories/extras-v2.webp',
   },
   {
     id: 'gaseosas',
@@ -71,7 +71,7 @@ export const CATEGORY_MOCK: readonly MenuCategory[] = [
     name: 'Gaseosas',
     description: 'Bebidas refrescantes para acompañar tu comida.',
     visualLabel: 'GA',
-    imageUrl: '/images/categories/gaseosas-v2.webp',
+    imageUrl: 'images/categories/gaseosas-v2.webp',
   },
   {
     id: 'jugos-bebidas',
@@ -79,6 +79,6 @@ export const CATEGORY_MOCK: readonly MenuCategory[] = [
     name: 'Jugos & Bebidas',
     description: 'Jugos y bebidas, incluyendo nuestra chicha morada.',
     visualLabel: 'JB',
-    imageUrl: '/images/categories/jugos-bebidas-v2.webp',
+    imageUrl: 'images/categories/jugos-bebidas-v2.webp',
   },
 ];

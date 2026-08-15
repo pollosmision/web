@@ -8,7 +8,7 @@ export const PROMOTION_MOCK: readonly Promotion[] = [
     title: 'Martes de Misión',
     description:
       'Disfruta el Combo Pollo + Refresco con 20% de descuento todos los martes. Sujeto a disponibilidad y confirmación por WhatsApp.',
-    imageUrl: '/images/promotions/pollo-refresco.webp',
+    imageUrl: 'images/promotions/pollo-refresco.webp',
     imageAlt: 'Porción de pollo frito crocante acompañada de un refresco con hielo',
   },
   {
@@ -18,7 +18,7 @@ export const PROMOTION_MOCK: readonly Promotion[] = [
     title: 'Miércoles Galáctico',
     description:
       'Disfruta el Combo Salchipapa + Jugo con 15% de descuento todos los miércoles. Sujeto a disponibilidad y confirmación por WhatsApp.',
-    imageUrl: '/images/promotions/salchipapa-jugo.webp',
+    imageUrl: 'images/promotions/salchipapa-jugo.webp',
     imageAlt: 'Plato de salchipapa con salsa acompañado de un vaso de jugo',
   },
   {
@@ -28,7 +28,7 @@ export const PROMOTION_MOCK: readonly Promotion[] = [
     title: 'Viernes de Despegue',
     description:
       'Disfruta el Combo Cono de Papas + Jugo con 10% de descuento todos los viernes. Sujeto a disponibilidad y confirmación por WhatsApp.',
-    imageUrl: '/images/promotions/cono-jugo.webp',
+    imageUrl: 'images/promotions/cono-jugo.webp',
     imageAlt: 'Cono rojo con papas fritas acompañado de un vaso de jugo',
   },
 ];

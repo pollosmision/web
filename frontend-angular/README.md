@@ -36,6 +36,24 @@ ng build
 
 This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
 
+## GitHub Pages
+
+This frontend is configured for the repository site `https://pollosmision.github.io/web/`.
+
+Build the GitHub Pages version locally with:
+
+```bash
+npm run build:pages
+```
+
+After committing and pushing the source changes, publish the compiled application to the `gh-pages` branch with:
+
+```bash
+npm run deploy:pages
+```
+
+In the GitHub repository settings, select **Deploy from a branch**, branch **gh-pages**, folder **/(root)**. The deploy builder creates a `404.html` fallback for Angular routes.
+
 ## Running unit tests
 
 To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:

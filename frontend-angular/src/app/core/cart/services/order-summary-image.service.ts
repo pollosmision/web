@@ -63,7 +63,7 @@ export class OrderSummaryImageService {
 
   private async drawHeader(context: CanvasRenderingContext2D, orderName: string): Promise<void> {
     try {
-      const logo = await this.loadImage('/images/brand/isotipo-pollos-mision.png');
+      const logo = await this.loadImage('images/brand/isotipo-pollos-mision.png');
       context.filter = 'grayscale(1) contrast(1.25)';
       context.drawImage(logo, (CANVAS_WIDTH - 130) / 2, 45, 130, 92);
       context.filter = 'none';
