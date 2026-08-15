@@ -93,17 +93,19 @@ export const routes: Routes = [
         {
           path: 'terminos',
           title: 'Términos y condiciones',
-          description: 'Contenido legal pendiente de publicación.',
+          description: 'Consulta los términos y condiciones de uso del sitio de Pollos Misión.',
+          legalPage: 'terms',
         },
         {
           path: 'privacidad',
           title: 'Política de privacidad',
-          description: 'Contenido legal pendiente de publicación.',
+          description: 'Conoce cómo Pollos Misión trata la información utilizada en este sitio.',
+          legalPage: 'privacy',
         },
-      ].map(({ path, title, description }) => ({
+      ].map(({ path, title, description, legalPage }) => ({
         path,
         title: `${title} | Pollos Misión`,
-        data: { title, description, robots: 'noindex, nofollow' },
+        data: { title, description, legalPage, robots: 'index, follow' },
         loadComponent: () =>
           import('./features/public-page/public-page').then(({ PublicPage }) => PublicPage),
       })),

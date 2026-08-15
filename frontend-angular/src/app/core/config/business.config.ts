@@ -10,8 +10,12 @@ export interface BusinessConfig {
   }[];
   readonly socialHandles: {
     readonly instagram: string;
-    readonly facebook: string | null;
-    readonly tiktok: string | null;
+    readonly tiktok: string;
+  };
+  readonly socialUrls: {
+    readonly instagram: string;
+    readonly facebook: string;
+    readonly tiktok: string;
   };
 }
 
@@ -27,7 +31,11 @@ export const BUSINESS_CONFIG: BusinessConfig = {
   ],
   socialHandles: {
     instagram: 'pollosmision',
-    facebook: null,
-    tiktok: null,
+    tiktok: 'pollosmision',
+  },
+  socialUrls: {
+    instagram: 'https://www.instagram.com/pollosmision',
+    facebook: 'https://www.facebook.com/profile.php?id=61585468384758',
+    tiktok: 'https://www.tiktok.com/@pollosmision',
   },
 };

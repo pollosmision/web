@@ -13,5 +13,17 @@ import { PageContainer } from '../../../../shared/components/page-container/page
 export class Footer {
   protected readonly business = BUSINESS_CONFIG;
   protected readonly currentYear = new Date().getFullYear();
-  protected readonly instagramUrl = `https://www.instagram.com/${BUSINESS_CONFIG.socialHandles.instagram}`;
+  protected readonly socialLinks = [
+    {
+      name: 'Instagram',
+      label: 'Instagram',
+      url: BUSINESS_CONFIG.socialUrls.instagram,
+    },
+    {
+      name: 'TikTok',
+      label: 'TikTok',
+      url: BUSINESS_CONFIG.socialUrls.tiktok,
+    },
+    { name: 'Facebook', label: 'Facebook', url: BUSINESS_CONFIG.socialUrls.facebook },
+  ] as const;
 }
